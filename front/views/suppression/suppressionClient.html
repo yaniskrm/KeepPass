@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Suppression Client</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script type="module" src="suppressionClient.js"></script>
+
+</head>
+
+<body>
+    <form method="post" id="removeCustomersForm" onsubmit="return false">
+        <div class="form-row">
+            <div class="form-group col-md-7">
+                <label for="id">ID du Client à Supprimer</label>
+                <input type="text" class="form-control" id="id" placeholder="Identifiant du client à supprimer">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Supprimer le Client</button>
+
+        <!-- bouton de retour a la liste des clients -->
+        <a href="http://localhost:3000/liste/list.html" class="btn btn-primary btn-dark">Retour à la liste des clients</a>
+    </form>
+
+    <div id='alert-message' role='alert'></div>
+</body>

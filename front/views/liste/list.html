@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+  <title>Liste Client</title>
+</head>
+
+<body>
+
+  <div id='alert-message' role='alert'></div>
+
+  
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nom Prénom</th>
+        <th scope="col">Société</th>
+        <th scope="col">Pays</th>
+        <th scope="col">Email</th>
+        <th scope="col">Création</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    
+    <tbody id="customersList">
+
+    </tbody>
+    
+
+  </table>
+
+
+  <!-- menu déroulant pour séléctionner le nombre de client par page -->
+
+  <div class="form-group">
+    <label for="select-number">Nombre de client par page</label>
+    <select class="select-number" id="select-number" onchange="getValueNumber()">
+      <option>10</option>
+      <option>20</option>
+      <option>30</option>
+      <option>40</option>
+      <option>50</option>
+      <option>100</option>
+    </select>
+  </div>
+
+  <nav>
+    <ul class="pagination">
+      <!-- bouton pour accéder à la premier page -->
+      <li class="page-item" id="first" onclick = "firstPage()"><a class="page-link" href="#">Première page</a></li>
+      <li class="page-item" id="prev" onclick = "decrementPageIndex()"><a class="page-link" href="#">Précédente</a></li>
+      <button type="button" class="btn btn-primary">
+        Page <span id="page" class="badge badge-light"></span>
+      </button>
+      <li class="page-item" id="next" onclick = "incrementPageIndex()"><a class="page-link" href="#">Suivante</a></li>
+      <!-- bouton pour accéder à la dernier page -->
+      <li class="page-item" id="last" onclick = "lastPage()"><a class="page-link" href="#">Dernière page</a></li>
+    </ul>
+  </nav>
+
+
+  <a href="../creation/creationClient.html" style="color: white;"> <button type="button" class="btn btn-success"> Ajouter un utilisateur</button></a>
+  <a href="../modification/modificationClient.html" style="color: white;"> <button type="button" class="btn btn-warning"> Modifier un utilisateur</button></a>
+  <a href="../suppression/suppressionClient.html" style="color: white;"> <button type="button" class="btn btn-danger"> Supprimer un utilisateur</button></a>
+
+
+</body>
+
+
+<script type="text/javascript" src="list.js"></script>
+<script type="text/javascript" src="../modification/modification.js"></script>
+<script type="text/javascript" src="../suppression/suppressionClient.js"></script>

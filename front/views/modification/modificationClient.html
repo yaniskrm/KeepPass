@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Modification Client</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+</head>
+
+<body>
+    <form method="post" id="editCustomerForm" onsubmit="return false">
+        <div class="form-row">
+            <div class="form-group col-md-7">
+                <label for="first">Id du Client à Modifier</label>
+                <input type="text" class="form-control" id="idClient" placeholder="Id Client">
+            </div>
+            <div class="form-group col-md-7">
+                <label for="first">Nouveau Prénom</label>
+                <input type="text" class="form-control" id="editFirst" placeholder="Prénom">
+            </div>
+            <div class="form-group col-md-7">
+                <label for="last">Nouveau Nom</label>
+                <input type="text" class="form-control" id="editLast" placeholder="Nom">
+            </div>
+            <div class="form-group col-md-7">
+                <label for="inputSociete">Nouvelle Société</label>
+                <input type="text" class="form-control" id="editCompany" placeholder="Société">
+            </div>
+
+            <div class="form-group col-md-7">
+                <label for="country">Nouveau Pays</label>
+                <input type="text" class="form-control" id="editCountry" placeholder="France">
+            </div>
+            <div class="form-group col-md-7">
+                <label for="email">Nouvelle Adresse Email</label>
+                <input type="email" class="form-control" id="editEmail" placeholder="azertyuiop@mail.com">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Modifier Le Client</button>
+        <!-- bouton de retour a la liste des clients -->
+        <a href="http://localhost:3000/liste/list.html" class="btn btn-primary btn-dark">Retour à la liste des clients</a>
+    </form>
+
+    <div id='alert-message' role='alert'></div>
+</body>
+
+<script src="modificationClient.js"></script>
