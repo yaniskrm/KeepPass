@@ -13,12 +13,12 @@ const consolePres = {
             output: process.stdout
         });
 
-        console.log(chalk.red("Bienvenue dans l'application de gestion de clients"));
-        console.log(chalk.blue("1. Lister les Clients"));
-        console.log(chalk.blue("2. Ajouter un client"));
-        console.log(chalk.blue("3. Supprimer un client"));
-        console.log(chalk.blue("4. Modifier un client"));
-        console.log(chalk.red("5. Quitter l'application"));
+        // console.log(chalk.red("Bienvenue dans l'application de gestion de clients"));
+        // console.log(chalk.blue("1. Lister les Clients"));
+        // console.log(chalk.blue("2. Ajouter un client"));
+        // console.log(chalk.blue("3. Supprimer un client"));
+        // console.log(chalk.blue("4. Modifier un client"));
+        // console.log(chalk.red("5. Quitter l'application"));
 
         const answer = await new Promise(resolve => {
             rl.question("Choisissez une option: ", resolve);
