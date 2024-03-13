@@ -1,21 +1,22 @@
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
 
-// Configuration de la connexion à la base de données
+// Configuration de la connexion à la base de données en utilisant des variables d'environnement (voir le fichier .env)
 const dbConfig = {
-    host: 'localhost',
-    user: 'root',
-    database: 'KeepPass',
-    password: 'root'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD
 };
 
-// Fonction pour hacher un mot de passe
+//Hache le mot de passe
 async function hashPassword(password) {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
 }
 
-// Fonction pour insérer un utilisateur dans la base de données
+//Insère un utilisateur dans la base de données
 async function insertUser(pseudoKP, passwordKP) {
     const connection = await mysql.createConnection(dbConfig);
     const hashedPassword = await hashPassword(passwordKP);
@@ -26,7 +27,7 @@ async function insertUser(pseudoKP, passwordKP) {
     await connection.end();
 }
 
-// Exemple d'utilisation : insérer des utilisateurs
+// Exemple d'insertion d'utilisateurs
 async function main() {
     await insertUser('utilisateur1', 'motdepasse1');
     await insertUser('utilisateur2', 'motdepasse2');
