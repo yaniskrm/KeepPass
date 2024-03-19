@@ -57,3 +57,15 @@ CREATE TABLE IF NOT EXISTS UserStorage (
     PRIMARY KEY (idAccount),
     FOREIGN KEY (idUsersKP) REFERENCES UserKP(idUserKP)
 );
+
+
+
+-Rapport Filtre de Bloom et Robustesse d'un mot de passe
+
+Le filtre de Bloom est une structure de données probabiliste qui permet de tester l'appartenance d'un élément à un ensemble. Sa particularité réside dans le fait qu'il peut donner des faux positifs (indiquer qu'un élément fait partie de l'ensemble alors que ce n'est pas le cas) mais jamais de faux négatifs (dire qu'un élément n'appartient pas à l'ensemble alors qu'il en fait partie). Bien que le filtre de Bloom soit utilisé dans de nombreux domaines pour sa rapidité et son efficacité en termes d'espace mémoire, son rapport avec la robustesse d'un mot de passe n'est pas direct. Cependant, il peut être utilisé dans le contexte de la sécurité des mots de passe de manière indirecte, notamment dans deux cas principaux :
+
+1. **Vérification contre des listes de mots de passe communs ou compromis** : Un filtre de Bloom peut stocker une vaste liste de mots de passe connus pour être faibles, couramment utilisés, ou précédemment exposés dans des violations de données. Lors de la création d'un nouveau mot de passe, le système peut vérifier rapidement et efficacement si le mot de passe proposé figure dans cette liste, sans avoir besoin de stocker la liste entière dans la mémoire ou de faire une recherche lente à travers elle. Si le filtre indique que le mot de passe pourrait être dans la liste (même avec le risque de faux positifs), l'utilisateur peut être invité à choisir un mot de passe différent. Cela aide à éviter l'utilisation de mots de passe faibles ou compromis.
+
+2. **Optimisation des performances dans les systèmes de gestion de mots de passe** : Les filtres de Bloom peuvent être utilisés pour optimiser les vérifications et les recherches dans les grands ensembles de données, comme une base de données de mots de passe hachés, en réduisant le nombre de requêtes nécessaires. Cela peut accélérer les processus de vérification sans compromettre significativement la sécurité. Par exemple, avant de faire une recherche coûteuse dans une base de données pour vérifier si un mot de passe haché est unique, un filtre de Bloom peut être utilisé pour vérifier s'il est probablement nouveau.
+
+Il est important de noter que l'utilisation de filtres de Bloom doit être soigneusement considérée dans le contexte de la sécurité des mots de passe, en tenant compte de leurs propriétés probabilistes et du risque de faux positifs. Leur utilisation principale en rapport avec les mots de passe est d'améliorer les performances et de réduire la charge sur les systèmes de stockage, tout en aidant indirectement à renforcer la robustesse des mots de passe en décourageant l'utilisation de mots de passe faibles ou déjà compromis.
