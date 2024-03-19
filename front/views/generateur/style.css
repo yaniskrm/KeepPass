@@ -1,0 +1,96 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Light gray background */
+    color: #333; /* Dark gray text for readability */
+    line-height: 1.6;
+    padding: 20px;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+header {
+    background: #202020; /* Darker gray */
+    color: #f4f4f4; /* Light gray text */
+    padding: 20px 0;
+    text-align: center;
+    top: 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+
+input, button, select, option {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc; /* Gray border */
+}
+
+button {
+    background-color: #333; /* Dark gray button */
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background-color: #555; /* Lighten the button on hover */
+}
+
+
+footer {
+    background: #202020;
+    color: #f4f4f4;
+    text-align: center;
+    padding: 20px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+
+.input-container {
+    display: flex; /* Nouveau */
+    align-items: center; /* Centre les éléments verticalement */
+    justify-content: flex-start; /* Alignez à gauche */
+    position: relative; /* Position relative pour le positionnement absolu de l'icône */
+    width: 90%; /* ou largeur maximale désirée */
+    max-width: 600px; /* pour la largeur maximale de l'input */
+    margin-bottom: 20px; /* Espace sous le conteneur */
+}
+
+.password-input {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-grow: 1; /* Permet à l'input de grandir pour remplir l'espace */
+    margin-right: -40px; /* Compense pour l'espace de l'icône */
+}
+
+.password-icon {
+    position: absolute; /* Position absolue par rapport au conteneur flex */
+    right: 0; /* Positionnez l'icône à droite */
+    padding: 12px 20px; /* Assurez-vous que le padding correspond à celui de l'input */
+    pointer-events: auto; /* Pour que l'icône soit cliquable */
+    border-radius: 0 4px 4px 0; /* Arrondi seulement sur les coins droits */
+    /* background: #f4f4f4; Correspond à la couleur de fond du body */
+}
