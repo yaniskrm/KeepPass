@@ -29,18 +29,17 @@ const business = {
         return resCustomers;
     },
 
-    addCustomers: function (customerJSON) {
-        console.log("customerJSON", customerJSON);
+    createUser: function (userJSON) {
+        console.log("customerJSON", userJSON);
          //vérifie si tous les champ sont remplis ou definis
-         if (customerJSON.first === undefined || customerJSON.last === undefined || customerJSON.company === undefined || customerJSON.country === undefined || customerJSON.email === undefined
-            || customerJSON.first === "" || customerJSON.last === "" || customerJSON.company === "" || customerJSON.country === "" || customerJSON.email === "") {
+         if (userJSON.pseudoKP === undefined || userJSON.passwordKP === undefined || userJSON.pseudoKP === "" || userJSON.passwordKP === "") {
             //envoie un message d'erreur
             console.log("tout les champs n'ont pas été remplis"); //RETOUR DE CODE ERREUR AVEC CODE QUI ACCOMPAGNE CETTE ERREUR
             return {status : 400, message : "tout les champs n'ont pas été remplis"};
         }
         
-        const newCustomers = dal.addCustomers(customerJSON);
-        return newCustomers;
+        const newUser = dal.createUser(userJSON);
+        return newUser;
     },
 
     removeCustomer: function (idClient) {

@@ -12,7 +12,5 @@ function main() {
 main();
 
 
-
 //lien consigne
 // https://docs.google.com/forms/d/e/1FAIpQLSfOtvwDBmClRs1BVI-pedSO3A21sXp1mnGJt1_PCf1vwObb1g/viewform?usp=sf_link
-
