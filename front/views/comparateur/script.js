@@ -18,7 +18,7 @@ function changePasswordVisibility() {
     }
 }
 
-
+// Fonction pour vérifier si un mot de passe a été exposé dans des fuites de données précédentes
 async function verifierMotDePasse() {
     var motDePasse = document.getElementById('password').value;
     var resultatElement = document.getElementById('resultat');
@@ -39,7 +39,7 @@ async function verifierMotDePasse() {
         var estExpose = hashes.some(h => h.split(':')[0] === suffix);
         
         if (estExpose) {
-            resultatElement.textContent = "Ce mot de passe a été exposé dans des violations de données précédentes. Veuillez en choisir un autre.";
+            resultatElement.textContent = "Ce mot de passe a été exposé dans des fuites de données précédentes. Veuillez en choisir un autre.";
         } else {
             strengthElement.textContent = evalueForceMotDePasse(motDePasse);
         }
@@ -49,6 +49,7 @@ async function verifierMotDePasse() {
     }
 }
 
+// Fonction pour évaluer la force d'un mot de passe
 function evalueForceMotDePasse(motDePasse) {
     const longueur = motDePasse.length;
     const complexiteAvecSymboles = /[A-Z]/.test(motDePasse) && /[a-z]/.test(motDePasse) && /[0-9]/.test(motDePasse) && /[\W_]/.test(motDePasse);
