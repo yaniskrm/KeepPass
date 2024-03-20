@@ -12,10 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                pseudo: pseudo,
-                password: password,
-            }),
+            body: formData
         })
         .then(response => {
             if (!response.ok) {
