@@ -52,22 +52,12 @@ let datalayer = {
 
     //ecriture nouveau customer
 
-    addCustomers: function (customerJSON) {
+    createUser: function (userJSON) {
 
-        //Définition de l'id du nouveau client
-        const getNewId = objectClient => Math.max(...objectClient.map(customer => customer.id)) + 1;
-        numberCustomer = getNewId(objectClient);
-        customerJSON.id = numberCustomer;
+        // ajout du client dans la base de données
 
-        //définition de la date d'ajout du nouveau client
-        customerJSON.created_at = currentDate;
 
-        //ajouter customerJSON à objectClient
-        objectClient.push(customerJSON);
-
-        fs.writeFileSync(filename, JSON.stringify(objectClient));
-
-        return customerJSON;
+        return userJSON;
     },
 
     removeCustomer: function (foundCustomer, customers) {

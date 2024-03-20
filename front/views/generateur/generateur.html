@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Generateur</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Générer votre mot de passe</h1>
+    </div>
+
+    <div class="input-container"> <!-- Nouveau conteneur flex -->
+        <input type="password" id="password" class="password-input">
+        <span onclick="changePasswordVisibility()" class="material-icons-outlined password-icon">visibility_off</span>
+    </div>
+
+    <div class="button-container">
+        <button onclick="generatePassword(event)" class="btn">Generer</button>
+        <button onclick="copyToClipboard()" class="btn">Copier</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

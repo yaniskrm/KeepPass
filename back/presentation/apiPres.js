@@ -27,15 +27,14 @@ const apiServ = {
         });
 
         //add customers to json file
-        app.post("/api/addcustomers", function (req, res) { //post envoie qqc
+        app.post("/api/createuser", function (req, res) { //post envoie qqc
 
-            var customerJSON = {
-                "id": null, "email": req.body.email, "first": req.body.first, "last": req.body.last,
-                "company": req.body.company, "created_at": null, "country": req.body.country
+            var userJSON = {
+                "id": null, "pseudoKP": req.body.pseudoKP, "passwordKP": req.body.passwordKP
             };
 
 
-            jsonRes = business.addCustomers(customerJSON);
+            jsonRes = business.addCustomers(userJSON);
 
             if (jsonRes.status === 400) {
                 res.status(400).send(jsonRes.message);
