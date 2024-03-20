@@ -4,7 +4,8 @@ var cors = require("cors");
 var app = express();
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');//const mysql = require('mysql');
+const bcrypt = require('bcrypt');
+//const mysql = require('mysql');
 //const db = mysql.createConnection({   host: "localhost",   user: "jonathan",   password: "mot_de_passe_utilisateur" });
 
 

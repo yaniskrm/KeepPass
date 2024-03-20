@@ -37,6 +37,7 @@ const business = {
             console.log("tout les champs n'ont pas été remplis"); //RETOUR DE CODE ERREUR AVEC CODE QUI ACCOMPAGNE CETTE ERREUR
             return {status : 400, message : "tout les champs n'ont pas été remplis"};
         }
+        //verifie si l'utilisateur est déjà présent dans la base de données des utilisateur
         
         const newUser = dal.createUser(userJSON);
         return newUser;
