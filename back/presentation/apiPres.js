@@ -4,7 +4,7 @@ var cors = require("cors");
 var app = express();
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
-//const mysql = require('mysql');
+const bcrypt = require('bcrypt');//const mysql = require('mysql');
 //const db = mysql.createConnection({   host: "localhost",   user: "jonathan",   password: "mot_de_passe_utilisateur" });
 
 
@@ -79,29 +79,47 @@ const apiServ = {
         app.use(bodyParser.urlencoded({ extended: true }));
 
         const dbConfig = {
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            database: process.env.DB_DATABASE,
-            password: process.env.DB_PASSWORD
+            host: "localhost",
+            user: "aris",
+            database: "KeepPass",
+            password: "toor"
         };
 
         app.post('/login', async (req, res) => {
-        const { email, password } = req.body; 
-        try {
-            const connection = await mysql.createConnection(dbConfig);
-            const [rows] = await connection.execute('SELECT * FROM users WHERE email = ? AND password = ?', [email, password]);
-            if (rows.length > 0) {
-            // L'utilisateur existe, traiter la connexion
-            res.send('Connexion réussie');
-            } else {
-            // L'utilisateur n'existe pas ou le mot de passe est incorrect
-            res.send('Échec de la connexion');
+            const { pseudo, password } = req.body;
+            console.log(req.body)
+            try {
+                // connexion avec la base de données
+                const connection = await mysql.createConnection(dbConfig);
+                console.log('Pseudo:', pseudo, 'Password:', password);
+
+                // Chercher l'utilisateur par pseudo
+                const [users] = await connection.execute('SELECT * FROM UserKP WHERE pseudoKP = ?', [pseudo]);
+                
+                // Vérifier si un utilisateur a été trouvé
+                if (users.length > 0) {
+                    const user = users[0];
+        
+                    // Comparer le mot de passe fourni avec le mot de passe haché dans la base de données
+                    const match = await bcrypt.compare(password, user.passwordKP);
+                    if (match) {
+                        // Si les mots de passe correspondent
+                        res.send('Connexion réussie');
+                    } else {
+                        // Si les mots de passe ne correspondent pas
+                        res.send('Échec de la connexion : mot de passe incorrect');
+                    }
+                } else {
+                    // Si aucun utilisateur n'a été trouvé avec ce pseudo
+                    res.send('Échec de la connexion : utilisateur non trouvé');
+                }
+        
+                // Fermer la connexion avec la base de données
+                await connection.end();
+            } catch (error) {
+                console.error('Erreur de connexion à la base de données', error);
+                res.status(500).send('Erreur lors de la connexion au serveur');
             }
-            await connection.end();
-        } catch (error) {
-            console.error('Erreur de connexion à la base de données', error);
-            res.status(500).send('Erreur lors de la connexion au serveur');
-        }
         });
 
         app.listen(port, function () {
