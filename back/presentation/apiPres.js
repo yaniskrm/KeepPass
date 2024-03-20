@@ -4,6 +4,9 @@ var cors = require("cors");
 var app = express();
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
+//const mysql = require('mysql');
+//const db = mysql.createConnection({   host: "localhost",   user: "jonathan",   password: "mot_de_passe_utilisateur" });
+
 
 
 const apiServ = {
@@ -34,7 +37,7 @@ const apiServ = {
             };
 
 
-            jsonRes = business.addCustomers(userJSON);
+            jsonRes = business.createUser(userJSON);
 
             if (jsonRes.status === 400) {
                 res.status(400).send(jsonRes.message);
