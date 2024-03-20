@@ -4,11 +4,17 @@ const bcrypt = require('bcrypt');
 
 // Configuration de la connexion à la base de données en utilisant des variables d'environnement (voir le fichier .env)
 const dbConfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD
+    host: "localhost",
+    user: "aris",
+    database: "KeepPass",
+    password: "toor"
 };
+// const dbConfig = {
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     database: process.env.DB_DATABASE,
+//     password: process.env.DB_PASSWORD
+// };
 
 //Hache le mot de passe
 async function hashPassword(password) {
@@ -34,4 +40,4 @@ async function main() {
     console.log('Utilisateurs insérés avec succès.');
 }
 
-main().catch(console.error);
+//main().catch(console.error);
