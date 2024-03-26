@@ -16,6 +16,7 @@ body, html {
     position: absolute; /* Permet de placer en haut de page */
     top: 0;
     left: 0;
+    color: red;
 }
 
 body {
@@ -27,6 +28,7 @@ h1 {
     color: #333; /* Dark grey color */
     font-size: 2.5rem; /* Larger font size for header */
     padding: 10px 0; /* Padding above and below the text */
+    margin-top: 220px;
 }
 
 /* Center the form on the page */
