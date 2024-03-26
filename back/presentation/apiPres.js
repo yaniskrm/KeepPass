@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require("express");
 const business = require("../business/business");
 var cors = require("cors");
@@ -79,12 +80,12 @@ const apiServ = {
         app.use(bodyParser.urlencoded({ extended: true }));
 
         const dbConfig = {
-            host: "localhost",
-            user: "aris",
-            database: "KeepPass",
-            password: "toor"
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            database: process.env.DB_DATABASE,
+            password: process.env.DB_PASSWORD
         };
-
+        
         app.post('/login', async (req, res) => {
             const { pseudo, password } = req.body;
             console.log(req.body)
