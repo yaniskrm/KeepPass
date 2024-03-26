@@ -1,4 +1,5 @@
 const fs = require("fs");
+const mysql = require("mysql");
 
 //fichier client
 const filename = "./data/customers.json";
@@ -9,10 +10,36 @@ let objectClient = JSON.parse(rawdata);
 
 const currentDate = new Date();
 
-var numberCustomer;
+const connection = mysql.createLogin({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD
+});
+
+connection.connect(function (err) {
+    if (err) {
+        console.error('Erreur de connexion à la base de données :', err);
+        return;
+    }
+    console.log('Connecté à la base de données MySQL');
+});
 
 
 let datalayer = {
+    insertUser: function(username, password) {
+        return new Promise((resolve, reject) => {
+            const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
+            connection.query(query, [username, password], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    },
+
     getAllCustomers: function () {
         //read json file
         const data = fs.readFileSync(filename);
@@ -69,8 +96,6 @@ let datalayer = {
     },
 
     editCustomer: function (editClient, foundCustomer) {
-
-         
         
         if((editClient.first != foundCustomer.first) && (editClient.first)){
             foundCustomer.first = editClient.first;

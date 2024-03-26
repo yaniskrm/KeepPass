@@ -31,20 +31,14 @@ const apiServ = {
             res.json(resCustomers);
         });
 
-        //add customers to json file
-        app.post("/api/createuser", function (req, res) { //post envoie qqc
-
-            var userJSON = {
-                "id": null, "pseudoKP": req.body.pseudoKP, "passwordKP": req.body.passwordKP
-            };
-
-
-            jsonRes = business.createUser(userJSON);
-
-            if (jsonRes.status === 400) {
-                res.status(400).send(jsonRes.message);
-            } else {
-                res.json(jsonRes);
+        // Route pour la création d'utilisateur
+        app.post('/api/createuser', async (req, res) => {
+            try {
+                const { username, password } = req.body;
+                const result = await createUser(username, password);
+                res.json({ success: true, message: 'Utilisateur créé avec succès', data: result });
+            } catch (error) {
+                res.status(500).json({ success: false, message: 'Erreur lors de la création de l\'utilisateur', error: error.message });
             }
         });
 
