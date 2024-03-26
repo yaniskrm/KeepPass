@@ -94,6 +94,18 @@ const business = {
             console.log("Ce client n'existe pas"); //RETOUR DE CODE ERREUR AVEC CODE QUI ACCOMPAGNE CETTE ERREUR
             return {status : 400, message : "Ce client n'existe pas"};
         }
+    },
+
+    // Business Layer (business/createUser.js)
+    createUser : async function (username, password) {
+        // Validation des données
+        if (!username || !password || username === '' || password === '') {
+            throw new Error('Veuillez fournir un nom d\'utilisateur, un email et un mot de passe valides');
+        }
+
+        // Interaction avec la couche d'accès aux données pour insérer l'utilisateur
+        const result = await dal.createUser(username, password);
+        return result;
     }
 
 };
