@@ -9,7 +9,12 @@ const bcrypt = require('bcrypt');
 //const mysql = require('mysql');
 //const db = mysql.createConnection({   host: "localhost",   user: "jonathan",   password: "mot_de_passe_utilisateur" });
 
-
+const dbConfig = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD
+};
 
 const apiServ = {
     start: function (port) {
@@ -18,68 +23,22 @@ const apiServ = {
 
         app.use(cors());
 
-        //retourne un tableau json contenant les clients et des informations supplémentaires 
-        // (nombre de page, nombre de client total)
-        app.get("/api/customers", function (req, res) { 
-
-            const number = req.query.number;
-            const page = req.query.page;
-
-            // get customers from business layer
-            const resCustomers = business.getCustomers(number, page);
-
-            res.json(resCustomers);
-        });
+        app.use(bodyParser.urlencoded({ extended: true }));
 
         // Route pour la création d'utilisateur
         app.post('/api/createuser', async (req, res) => {
             try {
-                const { username, password } = req.body;
-                const result = await createUser(username, password);
+                // Récupérer les données de la requête pseudoKP et passwordKP
+                const { pseudoKP, passwordKP } = req.body;
+
+                const result = await business.createUser(pseudoKP, passwordKP);
                 res.json({ success: true, message: 'Utilisateur créé avec succès', data: result });
             } catch (error) {
                 res.status(500).json({ success: false, message: 'Erreur lors de la création de l\'utilisateur', error: error.message });
             }
-        });
+        });        
 
-        //remove customers from json file
-        app.delete("/api/removecustomer", function (req, res) { //post envoie qqc
-            var idClient = req.query.id;
 
-            jsonRes = business.removeCustomer(idClient);
-
-            //affiche le message de retour
-            if (jsonRes.status === 400) {
-                res.status(400).send(jsonRes.message);
-            } else {
-                res.json(jsonRes);
-            }
-        });
-
-        app.put("/api/editcustomer", function (req, res) { //put modifie valeur json
-
-            var editClient = req.body;
-
-            jsonRes = business.editCustomer(editClient);
-
-            if (jsonRes.status === 400) {
-                res.status(400).send(jsonRes.message);
-            }
-            else {
-                res.json(jsonRes);
-            }
-        });
-
-        // PARTIE KEEPPASS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        
-        app.use(bodyParser.urlencoded({ extended: true }));
-
-        const dbConfig = {
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            database: process.env.DB_DATABASE,
-            password: process.env.DB_PASSWORD
-        };
         
         app.post('/login', async (req, res) => {
             const { pseudo, password } = req.body;

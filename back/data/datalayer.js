@@ -10,7 +10,7 @@ let objectClient = JSON.parse(rawdata);
 
 const currentDate = new Date();
 
-const connection = mysql.createLogin({
+const connection = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     database: process.env.DB_DATABASE,
@@ -27,10 +27,11 @@ connection.connect(function (err) {
 
 
 let datalayer = {
-    insertUser: function(username, password) {
+
+    createUser: function(pseudoKP, passwordKP) {
         return new Promise((resolve, reject) => {
             const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
-            connection.query(query, [username, password], (error, results) => {
+            connection.query(query, [pseudoKP, passwordKP], (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -73,18 +74,6 @@ let datalayer = {
 
             return result;
         }
-    },
-
-
-
-    //ecriture nouveau customer
-
-    createUser: function (userJSON) {
-
-        // ajout du client dans la base de données
-
-
-        return userJSON;
     },
 
     removeCustomer: function (foundCustomer, customers) {
