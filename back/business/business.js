@@ -10,6 +10,11 @@ const business = {
         if (!pseudoKP || !passwordKP) {
             throw new Error('Veuillez fournir un nom d\'utilisateur et un mot de passe valides');
         }
+        //Verification si le pseudo existe déjà
+        const user = await dal.login(pseudoKP);
+        if (user) {
+            throw new Error('Ce nom d\'utilisateur existe déjà');
+        }
 
         // Interaction avec la couche d'accès aux données pour insérer l'utilisateur
         const result = await dal.createUser(pseudoKP, passwordKP);
