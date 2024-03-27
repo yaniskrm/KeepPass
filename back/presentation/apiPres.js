@@ -33,9 +33,10 @@ const apiServ = {
 
         
         app.post('/login', async (req, res) => {
-            const { pseudo, password } = req.body;
-            console.log(req.body)
             try {
+                // Récupérer les données de la requête pseudo et password
+                const { pseudo, password } = req.body;
+
                 // connexion avec la base de données
                 const connection = await mysql.createConnection(dbConfig);
                 // console.log('Pseudo:', pseudo, 'Password:', password);
