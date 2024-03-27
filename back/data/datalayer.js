@@ -22,12 +22,25 @@ let datalayer = {
 
     createUser: function(pseudoKP, passwordKP) {
         return new Promise((resolve, reject) => {
-            const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
+            const query = 'INSERT INTO UserKP (pseudoKP, passwordKP) VALUES (?, ?)';
             connection.query(query, [pseudoKP, passwordKP], (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
                     resolve(results);
+                }
+            });
+        });
+    },
+
+    login : function(pseudo) {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM UserKP WHERE pseudoKP = ?';
+            connection.query(query, [pseudo], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results[0]);
                 }
             });
         });
