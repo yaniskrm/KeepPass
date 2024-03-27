@@ -6,15 +6,7 @@ var app = express();
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-//const mysql = require('mysql');
-//const db = mysql.createConnection({   host: "localhost",   user: "jonathan",   password: "mot_de_passe_utilisateur" });
-
-const dbConfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD
-};
+const session = require('express-session');
 
 const apiServ = {
     start: function (port) {
@@ -46,7 +38,7 @@ const apiServ = {
             try {
                 // connexion avec la base de données
                 const connection = await mysql.createConnection(dbConfig);
-                console.log('Pseudo:', pseudo, 'Password:', password);
+                // console.log('Pseudo:', pseudo, 'Password:', password);
 
                 // Chercher l'utilisateur par pseudo
                 const [users] = await connection.execute('SELECT * FROM UserKP WHERE pseudoKP = ?', [pseudo]);
@@ -54,12 +46,15 @@ const apiServ = {
                 // Vérifier si un utilisateur a été trouvé
                 if (users.length > 0) {
                     const user = users[0];
-        
+
                     // Comparer le mot de passe fourni avec le mot de passe haché dans la base de données
                     const match = await bcrypt.compare(password, user.passwordKP);
                     if (match) {
                         // Si les mots de passe correspondent
-                        res.send('Connexion réussie');
+                        //renvoie vers la page index.html
+                        req.session.userId = user.idUserKP; // Stocker l'ID dans la session
+                        req.session.pseudo = user.pseudoKP;
+                        res.redirect('http://localhost:3000/index.html');
                     } else {
                         // Si les mots de passe ne correspondent pas
                         res.send('Échec de la connexion : mot de passe incorrect');
@@ -76,11 +71,24 @@ const apiServ = {
                 res.status(500).send('Erreur lors de la connexion au serveur');
             }
         });
+        
+        const corsOptions = {
+            origin: 'http://localhost:3000', // Spécifiez l'origine autorisée
+            credentials: true // Permet l'envoi des credentials comme les cookies
+          };
+          
+        app.use(cors(corsOptions));
+        app.get('/api/user', (req, res) => {
+            if (req.session && req.session.userId) {
+                res.json({ pseudo: req.session.pseudo, userId: req.session.userId });
+            } else {
+                res.status(401).json({ message: "Non authentifié" });
+            }
+            });
 
         app.listen(port, function () {
             console.log("Server running on port " + port);
         });
-
     }
 }
 

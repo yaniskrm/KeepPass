@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - KeepPass</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <script src="script.js"></script>
 </head>
 <body>
     <header class="header">
         <h1>KeepPass</h1>
         <h2>Stockez vos mots de passe en toute sécurité</h2>
     </header>
+
+    <div class="settings-container">
+        <span class="material-icons-outlined settings-icon">settings</span>
+        <div id="settings-menu" class="settings-menu">
+            <a href="" class="settings-link">Modifier le compte</a>
+            <a href="../login/login.html" class="settings-link">Se déconnecter</a>
+        </div>
+    </div>
     
     <div class="main-nav">
         <a href="../generateur/generateur.html" class="btn">Générateur de Mots de Passe</a>
