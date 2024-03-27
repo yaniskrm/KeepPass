@@ -38,10 +38,13 @@ const apiServ = {
 
 
         
-        app.post('/login', async (req, res) => {
+        app.post('/api/login', async (req, res) => {
             try {
-                const { pseudo, password } = req.body;
+                const pseudo = req.body.pseudo;
+                const password = req.body.password;
+
                 const result = await business.login(pseudo, password);
+                
                 res.json(result);
             } catch (error) {
                 console.error('Erreur de connexion à la base de données', error);
