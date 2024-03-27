@@ -1,6 +1,6 @@
 const apiServ = require("./presentation/apiPres");
 const consolePres = require("./presentation/consolePres");
-const port = 3005;
+const port = 3001;
 
 function main() {
 
