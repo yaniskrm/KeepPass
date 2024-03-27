@@ -11,6 +11,20 @@ const session = require('express-session');
 const apiServ = {
     start: function (port) {
 
+        const dbConfig = {
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            database: process.env.DB_DATABASE,
+            password: process.env.DB_PASSWORD
+        };
+        
+        app.use(session({
+            secret: 'secret',
+            resave: false,
+            saveUninitialized: false,
+            cookie: { secure: false } 
+        }));
+
         app.use(express.json());
 
         app.use(cors());
@@ -29,8 +43,6 @@ const apiServ = {
                 res.status(500).json({ success: false, message: 'Erreur lors de la création de l\'utilisateur', error: error.message });
             }
         });        
-
-
         
         app.post('/login', async (req, res) => {
             const { pseudo, password } = req.body;

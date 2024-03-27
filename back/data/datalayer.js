@@ -1,5 +1,5 @@
 const fs = require("fs");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 //fichier client
 const filename = "./data/customers.json";
