@@ -1,0 +1,119 @@
+/* Apply a consistent font across the entire page */
+body, input, button, label {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Set the background color of the entire page */
+body, html {
+    background-color: #f4f4f4; /* Light gray background */
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    margin-top: 0;
+    /* padding-top: 20px; Espace en haut */
+    position: absolute; /* Permet de placer en haut de page */
+    top: 0;
+    left: 0;
+    color: red;
+}
+
+body {
+    padding-top: 80px;
+}
+
+
+h1 {
+    color: #333; /* Dark grey color */
+    font-size: 2.5rem; /* Larger font size for header */
+    padding: 10px 0; /* Padding above and below the text */
+    margin-top: 220px;
+}
+
+/* Center the form on the page */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 50px; /* Adjust as needed */
+}
+
+/* Style the input fields */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%; /* Full width of its parent */
+    max-width: 400px; /* Maximum width of the input fields */
+    padding: 10px;
+    margin-bottom: 15px; /* Space between the input fields */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Slightly rounded borders for the input fields */
+}
+
+/* Style the labels for better readability */
+label {
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 5px;
+}
+
+/* Style the submit button */
+button[type="submit"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #333; /* Dark gray background */
+    color: white; /* White text */
+    margin-bottom: 15px;
+    cursor: pointer; /* Cursor changes to a pointer on hover */
+}
+
+/* Change the button background color on hover */
+button[type="submit"]:hover {
+    background-color: #555; /* Lighten the button background */
+}
+
+
+/* .header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px; /* Adjust this value as needed for space below the header 
+} */
+
+/* Ensure the form is centered and has a max width */
+.form-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Make sure each form group takes full width of the form */
+.form-group {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Style the alert message */
+#alert-message {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Provide responsive adjustments */
+@media (max-width: 768px) {
+    /* Ensure that the input fields don't get too small on mobile */
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    button[type="submit"] {
+        width: 90%;
+    }
+}

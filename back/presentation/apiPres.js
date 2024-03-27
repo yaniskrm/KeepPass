@@ -14,23 +14,24 @@ const apiServ = {
         app.use(express.json());
 
         app.use(cors());
- 
+
         app.use(bodyParser.urlencoded({ extended: true }));
 
-        const dbConfig = {
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            database: process.env.DB_DATABASE,
-            password: process.env.DB_PASSWORD
-        };
+        // Route pour la création d'utilisateur
+        app.post('/api/createuser', async (req, res) => {
+            try {
+                // Récupérer les données de la requête pseudoKP et passwordKP
+                const { pseudoKP, passwordKP } = req.body;
 
-        app.use(session({
-            secret: 'secret',
-            resave: false,
-            saveUninitialized: false,
-            cookie: { secure: false } 
-        }));
+                const result = await business.createUser(pseudoKP, passwordKP);
+                res.json({ success: true, message: 'Utilisateur créé avec succès', data: result });
+            } catch (error) {
+                res.status(500).json({ success: false, message: 'Erreur lors de la création de l\'utilisateur', error: error.message });
+            }
+        });        
 
+
+        
         app.post('/login', async (req, res) => {
             const { pseudo, password } = req.body;
             console.log(req.body)
