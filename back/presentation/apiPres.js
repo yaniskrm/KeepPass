@@ -99,7 +99,24 @@ const apiServ = {
                 res.status(401).json({ message: "Non authentifié" });
             }
             });
-
+        
+        app.get('/logout', (req, res) => {
+            req.session.destroy((err) => {
+                if (err) {
+                    return res.status(500).send('Failed to log out');
+                }
+        
+                // Optionnel: Supprimer explicitement le cookie de session du côté client
+                res.clearCookie('connect.sid'); // Assurez-vous que le nom du cookie est correct selon votre configuration
+        
+                // Rediriger vers la page de connexion ou renvoyer un succès
+                //res.redirect('/login'); // Modifiez selon le chemin de votre page de connexion
+                res.redirect('http://localhost:3000/accueil/accueil.html');
+                // ou
+                // res.status(200).send('Logged out');
+            });
+        });
+        
         app.listen(port, function () {
             console.log("Server running on port " + port);
         });
