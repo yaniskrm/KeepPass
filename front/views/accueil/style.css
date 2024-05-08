@@ -7,15 +7,39 @@ body, html {
 }
 
 .header {
+    display: flex; /* Active Flexbox */
+    align-items: center; /* Centre les éléments verticalement */
+    justify-content: center; /* Centre le sous-titre horizontalement */
     background: #202020;
     color: #f4f4f4;
     padding: 20px 0;
-    text-align: center;
+    position: relative; /* Permet de positionner absolument le logo par rapport à l'en-tête */
+}
+
+.logo {
+    position: absolute; /* Positionne le logo de manière absolue par rapport à l'en-tête */
+    left: 20px; /* Place le logo à 20px du bord gauche */
+    top: 50%; /* Démarre à 50% du haut de l'en-tête */
+    transform: translateY(-50%); /* Décale le logo de -50% de sa propre hauteur pour le centrer verticalement */
+    font-size: 1.5rem; /* Taille de la police du logo */
+}
+
+.tagline {
+    text-align: center; 
+    width: 100%; 
+    font-size: 2rem; 
 }
 
 .main-nav {
     text-align: center;
     margin: 20px 0;
+}
+
+.welcome-message {
+    margin: 20px 0;
+    font-size: 30px;
+    text-align: center;
+    
 }
 
 .main-nav button {
@@ -61,15 +85,22 @@ body, html {
 }
 
 .settings-container {
-    position: relative;
+    position: fixed; /* Fixe le conteneur à une position sur l'écran */
+    top: 0; /* Colle le conteneur en haut de la fenêtre du navigateur */
+    right: 0; /* Colle le conteneur à droite de la fenêtre du navigateur */
     display: inline-block;
+    margin: 20px; /* Ajoute un peu d'espace autour du conteneur pour l'esthétique */
 }
 
 .settings-icon {
     cursor: pointer;
-    font-size: 24px; /* Taille de l'icône */
-    color: #333; /* Couleur de l'icône */
+    font-size: 50px; /* Taille de l'icône */
+    color: #ffffff; /* Couleur de l'icône */
     user-select: none;
+}
+
+.settings-container .material-icons-outlined.settings-icon {
+    font-size: 36px; /* Ajustez cette valeur pour changer la taille de l'icône */
 }
 
 .settings-menu {

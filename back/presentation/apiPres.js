@@ -68,9 +68,9 @@ const apiServ = {
                         //renvoie vers la page index.html
                         req.session.userId = user.idUserKP; // Stocker l'ID dans la session
                         req.session.pseudo = user.pseudoKP;
-                        res.redirect('http://localhost:3000/index.html');
+                        res.redirect('http://localhost:3000/accueil/accueil.html');
                     } else {
-                        // Si les mots de passe ne correspondent pas
+                        // Si les mots de passe ne correspondent pas  
                         res.send('Échec de la connexion : mot de passe incorrect');
                     }
                 } else {

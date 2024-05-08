@@ -10,18 +10,20 @@
 </head>
 <body>
     <header class="header">
-        <h1>KeepPass</h1>
-        <h2>Stockez vos mots de passe en toute sécurité</h2>
+        <div class="logo">KeepPass</div>
+        <h2 class="tagline">Stockez vos mots de passe en toute sécurité</h2>
     </header>
+    
 
+    <div id="welcomeMessage" class="welcome-message"></div>
     <div class="settings-container">
-        <span class="material-icons-outlined settings-icon">settings</span>
+        <span class="material-icons-outlined settings-icon" id="settingsIcon">settings</span>
         <div id="settings-menu" class="settings-menu">
             <a href="" class="settings-link">Modifier le compte</a>
             <a href="../login/login.html" class="settings-link">Se déconnecter</a>
         </div>
     </div>
-    
+
     <div class="main-nav">
         <a href="../generateur/generateur.html" class="btn">Générateur de Mots de Passe</a>
         <a href="../comparateur/comparateur.html" class="btn">Comparateur de Mots de Passe</a>
@@ -31,5 +33,41 @@
     <footer class="footer">
         <p>&copy; 2024 KeepPass. Tous droits réservés.</p>
     </footer>
+    <script>
+        fetch('http://localhost:3001/api/user', {
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Non authentifié');
+        })
+        .then(user => {
+            // Modification ici pour n'inclure que le pseudo de l'utilisateur dans le message
+            document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, sélectionnez une option :`;
+        })
+        .catch(error => {
+            document.getElementById('welcomeMessage').innerHTML = 'Veuillez vous connecter.';
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+        const settingsIcon = document.getElementById('settingsIcon');
+        const settingsMenu = document.getElementById('settings-menu');
+
+        // Gérer l'ouverture/fermeture du menu des paramètres
+        settingsIcon.addEventListener('click', function(event) {
+            // Toggle la visibilité du menu
+            settingsMenu.style.display = (settingsMenu.style.display === 'block') ? 'none' : 'block';
+            event.stopPropagation(); // Empêche le clic de se propager plus loin
+        });
+
+        // Fermer le menu si on clique en dehors
+        document.addEventListener('click', function(event) {
+            if (!settingsMenu.contains(event.target) && !settingsIcon.contains(event.target)) {
+                settingsMenu.style.display = 'none';
+            }
+        });
+        });
+    </script>
 </body>
 </html>

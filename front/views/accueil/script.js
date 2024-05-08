@@ -9,3 +9,4 @@ document.querySelector('.settings-icon').addEventListener('click', function(even
     var settingsMenu = document.getElementById('settings-menu');
     settingsMenu.style.display = settingsMenu.style.display === 'block' ? 'none' : 'block';
 });
+
