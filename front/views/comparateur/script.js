@@ -20,6 +20,7 @@ function changePasswordVisibility() {
 
 // Fonction pour vérifier si un mot de passe a été exposé dans des fuites de données précédentes
 async function verifierMotDePasse() {
+    resetResult();
     var motDePasse = document.getElementById('password').value;
     var resultatElement = document.getElementById('resultat');
     var strengthElement = document.getElementById('password-strength');

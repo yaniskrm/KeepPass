@@ -3,27 +3,19 @@ var express = require("express");
 const business = require("../business/business");
 var cors = require("cors");
 var app = express();
-const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
-const session = require('express-session');
 
 const apiServ = {
     start: function (port) {
 
-        const dbConfig = {
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            database: process.env.DB_DATABASE,
-            password: process.env.DB_PASSWORD
-        };
+
         
-        app.use(session({
-            secret: 'secret',
-            resave: false,
-            saveUninitialized: false,
-            cookie: { secure: false } 
-        }));
+        // app.use(session({
+        //     secret: 'secret',
+        //     resave: false,
+        //     saveUninitialized: false,
+        //     cookie: { secure: false } 
+        // }));
 
         app.use(express.json());
 
@@ -82,23 +74,24 @@ const apiServ = {
                 await connection.end();
             } catch (error) {
                 console.error('Erreur de connexion à la base de données', error);
-                res.status(500).send('Erreur lors de la connexion au serveur');
+                res.status(500).json({ error: 'Erreur lors de la connexion au serveur' });
             }
         });
         
-        const corsOptions = {
-            origin: 'http://localhost:3000', // Spécifiez l'origine autorisée
-            credentials: true // Permet l'envoi des credentials comme les cookies
-          };
+        // const corsOptions = {
+        //     origin: 'http://localhost:3000', // Spécifiez l'origine autorisée
+        //     credentials: true // Permet l'envoi des credentials comme les cookies
+        //   };
           
-        app.use(cors(corsOptions));
-        app.get('/api/user', (req, res) => {
-            if (req.session && req.session.userId) {
-                res.json({ pseudo: req.session.pseudo, userId: req.session.userId });
-            } else {
-                res.status(401).json({ message: "Non authentifié" });
-            }
-            });
+        // app.use(cors(corsOptions));
+
+        // app.get('/api/user', (req, res) => {
+        //     if (req.session && req.session.userId) {
+        //         res.json({ pseudo: req.session.pseudo, userId: req.session.userId });
+        //     } else {
+        //         res.status(401).json({ message: "Non authentifié" });
+        //     }
+        //     });
 
         app.listen(port, function () {
             console.log("Server running on port " + port);

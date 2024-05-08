@@ -1,5 +1,6 @@
 const fs = require("fs");
 const mysql = require("mysql2");
+const bcrypt = require('bcrypt');
 
 
 const connection = mysql.createConnection({
@@ -21,13 +22,31 @@ connection.connect(function (err) {
 let datalayer = {
 
     createUser: function(pseudoKP, passwordKP) {
+        //hachage du mot de passe passwordKP avec bcrypt
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(passwordKP, salt);
+        hashedPasswordKP = hash;
+
         return new Promise((resolve, reject) => {
-            const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
-            connection.query(query, [pseudoKP, passwordKP], (error, results) => {
+            const query = 'INSERT INTO UserKP (pseudoKP, passwordKP) VALUES (?, ?)';
+            connection.query(query, [pseudoKP, hashedPasswordKP], (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
                     resolve(results);
+                }
+            });
+        });
+    },
+
+    login : function(pseudo) {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM UserKP WHERE pseudoKP = ?';
+            connection.query(query, [pseudo], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results[0]);
                 }
             });
         });
