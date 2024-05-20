@@ -43,8 +43,6 @@ const apiServ = {
                 res.status(500).json({ success: false, message: 'Erreur lors de la création de l\'utilisateur', error: error.message });
             }
         });        
-
-
         
         app.post('/login', async (req, res) => {
             const { pseudo, password } = req.body;

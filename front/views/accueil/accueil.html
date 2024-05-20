@@ -24,6 +24,11 @@
         </div>
     </div>
 
+    <div id="loginLinkContainer" class="login-link-container" style="display: none; text-align: center;">
+        <a href="../login/login.html" class="btn">Connectez-vous ou inscrivez-vous</a>
+    </div>
+    
+
     <div class="main-nav">
         <a href="../generateur/generateur.html" class="btn">Générateur de Mots de Passe</a>
         <a href="../comparateur/comparateur.html" class="btn">Comparateur de Mots de Passe</a>
@@ -48,7 +53,7 @@
             document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, sélectionnez une option :`;
         })
         .catch(error => {
-            document.getElementById('welcomeMessage').innerHTML = 'Veuillez vous connecter.';
+            document.getElementById('welcomeMessage').innerHTML = 'Bonjour, veuillez vous connecter ';
         });
         document.addEventListener('DOMContentLoaded', function() {
         const settingsIcon = document.getElementById('settingsIcon');
@@ -68,6 +73,42 @@
             }
         });
         });
+        fetch('http://localhost:3001/api/user', {
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Non authentifié');
+        })
+        .then(user => {
+            // Utilisateur connecté
+            document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, sélectionnez une option :`;
+            document.querySelector('.main-nav').style.display = 'block'; // Affiche la navigation
+        })
+        .catch(error => {
+            // Utilisateur non connecté
+            document.getElementById('welcomeMessage').innerHTML = 'Bonjour, veuillez vous connecter.';
+            document.getElementById('loginLinkContainer').style.display = 'block'; // Affiche le lien de connexion/inscription
+        });
+
+        // Gestion du menu des paramètres...
+        document.addEventListener('DOMContentLoaded', function() {
+            const settingsIcon = document.getElementById('settingsIcon');
+            const settingsMenu = document.getElementById('settings-menu');
+            settingsIcon.addEventListener('click', function(event) {
+                settingsMenu.style.display = (settingsMenu.style.display === 'block') ? 'none' : 'block';
+                event.stopPropagation();
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!settingsMenu.contains(event.target) && !settingsIcon.contains(event.target)) {
+                    settingsMenu.style.display = 'none';
+                }
+            });
+        });
+
     </script>
 </body>
 </html>

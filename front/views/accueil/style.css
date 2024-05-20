@@ -141,3 +141,7 @@ body:not(.settings-container) .settings-menu {
         width: 90%;
     }
 }
+
+.main-nav {
+    display: none; /* Cache la navigation par défaut */
+}
