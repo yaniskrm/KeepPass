@@ -42,13 +42,12 @@ $(document).on("submit", "#editCustomerForm", function (event) { //lorsque le fo
     var editFirst = document.getElementById("editFirst").value;
     var editLast = document.getElementById("editLast").value;
     var editEmail = document.getElementById("editEmail").value;
-    var editCompany = document.getElementById("editCompany").value;
-    var editCountry = document.getElementById("editCountry").value;
+    var editPassword = document.getElementById("editPassword").value;
 
     //création du client
     var client = {
         "id": idClient, "email": editEmail, "first": editFirst, "last": editLast,
-        "company": editCompany, "created_at": null, "country": editCountry
+        "password":editPassword, "created_at": null,
     };
 
     editClient(client);
