@@ -17,6 +17,11 @@ const apiServ = {
             database: process.env.DB_DATABASE,
             password: process.env.DB_PASSWORD
         };
+
+        const corsOptions = {
+            origin: 'http://localhost:3000', // Spécifiez l'origine autorisée
+            credentials: true // Permet l'envoi des credentials comme les cookies
+          };
         
         app.use(session({
             secret: 'secret',
@@ -28,6 +33,7 @@ const apiServ = {
         app.use(express.json());
 
         app.use(cors());
+        app.use(cors(corsOptions));
 
         app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -84,13 +90,9 @@ const apiServ = {
             }
         });
         
-        const corsOptions = {
-            origin: 'http://localhost:3000', // Spécifiez l'origine autorisée
-            credentials: true // Permet l'envoi des credentials comme les cookies
-          };
+        
           
-        app.use(cors(corsOptions));
-        app.get('/api/user', (req, res) => {
+        app.get('/api/userCookies', (req, res) => {
             if (req.session && req.session.userId) {
                 res.json({ pseudo: req.session.pseudo, userId: req.session.userId });
             } else {
@@ -104,7 +106,7 @@ const apiServ = {
                     return res.status(500).send('Failed to log out');
                 }
         
-                // Optionnel: Supprimer explicitement le cookie de session du côté client
+                // Optionnel: Supprimer explicitement le cookie      session du côté client
                 res.clearCookie('connect.sid'); // Assurez-vous que le nom du cookie est correct selon votre configuration
         
                 // Rediriger vers la page de connexion ou renvoyer un succès
@@ -114,7 +116,45 @@ const apiServ = {
                 // res.status(200).send('Logged out');
             });
         });
-        
+
+
+        // // Route pour la liste des mots de passe
+        // app.get('/api/listPassword', async (req, res) => {
+        //     if (!req.session.userId) {
+        //         return res.status(401).json({ success: false, message: 'Utilisateur non authentifié' });
+        //     }
+        //     try {
+        //         const userId = req.session.userId;
+        //         const passwords = await business.listPasswords(userId);
+        //         res.json({ success: true, passwords });
+        //     } catch (error) {
+        //         res.status(500).json({ success: false, message: 'Erreur lors de la récupération des mots de passe', error: error.message });
+        //     }
+        // });
+
+
+        //  // Route pour chiffrer et stocker un mot de passe
+        //  app.post('/api/encrypt', async (req, res) => {
+        //     try {
+        //         const { pseudoKP, site, password } = req.body;
+        //         const result = await business.encryptAndStorePassword(pseudoKP, site, password);
+        //         res.json({ success: true, message: 'Mot de passe chiffré et stocké avec succès', data: result });
+        //     } catch (error) {
+        //         res.status(500).json({ success: false, message: 'Erreur lors du chiffrement et du stockage du mot de passe', error: error.message });
+        //     }
+        // });
+
+        // // Route pour déchiffrer et récupérer les mots de passe
+        // app.post('/api/decrypt', async (req, res) => {
+        //     try {
+        //         const { pseudoKP, site } = req.body;
+        //         const result = await business.decryptAndRetrievePassword(pseudoKP, site);
+        //         res.json({ success: true, message: 'Mot de passe déchiffré avec succès', data: result });
+        //     } catch (error) {
+        //         res.status(500).json({ success: false, message: 'Erreur lors du déchiffrement du mot de passe', error: error.message });
+        //     }
+        // });
+
         app.listen(port, function () {
             console.log("Server running on port " + port);
         });

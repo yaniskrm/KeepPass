@@ -1,4 +1,4 @@
---script pour creer la base de données 
+-- script pour creer la base de données 
 -- bash : source /chemin/vers/votre/script.sql;
 
 -- Création de la base de données (optionnelle, selon votre environnement actuel)

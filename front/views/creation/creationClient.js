@@ -5,16 +5,16 @@ $(document).on("submit", "#addCustomersForm", function (event) { //lorsque le fo
     event.preventDefault();
 
     //récuperer les valeurs du formulaire
-    var first = document.getElementById("first").value;
-    var last = document.getElementById("last").value;
+    var website = document.getElementById("website").value;
+    var pseudo = document.getElementById("pseudo").value;
     var email = document.getElementById("email").value;
-    var company = document.getElementById("company").value;
-    var country = document.getElementById("country").value;
+    var password = document.getElementById("password").value;
+    
 
     //création du client
     var client = {
-        "id": null, "email": email, "first": first, "last": last,
-        "company": company, "created_at": null, "country": country
+        "id": null, "pseudo": pseudo, "email": email,
+        "password": password, "created_at": null
     };
 
 createClient(client);
@@ -46,6 +46,3 @@ function createClient(client)
     });
 
 }
-
-
-
