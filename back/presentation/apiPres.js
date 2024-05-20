@@ -133,6 +133,28 @@ const apiServ = {
         // });
 
 
+        //  // Route pour chiffrer et stocker un mot de passe
+        //  app.post('/api/encrypt', async (req, res) => {
+        //     try {
+        //         const { pseudoKP, site, password } = req.body;
+        //         const result = await business.encryptAndStorePassword(pseudoKP, site, password);
+        //         res.json({ success: true, message: 'Mot de passe chiffré et stocké avec succès', data: result });
+        //     } catch (error) {
+        //         res.status(500).json({ success: false, message: 'Erreur lors du chiffrement et du stockage du mot de passe', error: error.message });
+        //     }
+        // });
+
+        // // Route pour déchiffrer et récupérer les mots de passe
+        // app.post('/api/decrypt', async (req, res) => {
+        //     try {
+        //         const { pseudoKP, site } = req.body;
+        //         const result = await business.decryptAndRetrievePassword(pseudoKP, site);
+        //         res.json({ success: true, message: 'Mot de passe déchiffré avec succès', data: result });
+        //     } catch (error) {
+        //         res.status(500).json({ success: false, message: 'Erreur lors du déchiffrement du mot de passe', error: error.message });
+        //     }
+        // });
+
         app.listen(port, function () {
             console.log("Server running on port " + port);
         });

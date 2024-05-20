@@ -64,6 +64,54 @@ let datalayer = {
     //         });
     //     });
     // }
+
+    // storePassword: function (pseudoKP, site, encryptedPassword) {
+    //     return new Promise((resolve, reject) => {
+    //         const getUserQuery = 'SELECT idUserKP FROM UserKP WHERE pseudoKP = ?';
+    //         connection.query(getUserQuery, [pseudoKP], (error, results) => {
+    //             if (error) {
+    //                 reject(error);
+    //             } else if (results.length > 0) {
+    //                 const userId = results[0].idUserKP;
+    //                 const query = 'INSERT INTO passwords (userId, site, password) VALUES (?, ?, ?)';
+    //                 connection.query(query, [userId, site, encryptedPassword], (error, results) => {
+    //                     if (error) {
+    //                         reject(error);
+    //                     } else {
+    //                         resolve(results);
+    //                     }
+    //                 });
+    //             } else {
+    //                 reject(new Error('Utilisateur non trouvé'));
+    //             }
+    //         });
+    //     });
+    // },
+
+    // getPassword: function (pseudoKP, site) {
+    //     return new Promise((resolve, reject) => {
+    //         const getUserQuery = 'SELECT idUserKP FROM UserKP WHERE pseudoKP = ?';
+    //         connection.query(getUserQuery, [pseudoKP], (error, results) => {
+    //             if (error) {
+    //                 reject(error);
+    //             } else if (results.length > 0) {
+    //                 const userId = results[0].idUserKP;
+    //                 const query = 'SELECT password FROM passwords WHERE userId = ? AND site = ?';
+    //                 connection.query(query, [userId, site], (error, results) => {
+    //                     if (error) {
+    //                         reject(error);
+    //                     } else if (results.length > 0) {
+    //                         resolve(results[0].password);
+    //                     } else {
+    //                         reject(new Error('Mot de passe non trouvé'));
+    //                     }
+    //                 });
+    //             } else {
+    //                 reject(new Error('Utilisateur non trouvé'));
+    //             }
+    //         });
+    //     });
+    // }
 };
 
 module.exports = datalayer;
