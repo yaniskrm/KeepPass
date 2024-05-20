@@ -6,13 +6,14 @@ $(document).on("submit", "#addCustomersForm", function (event) { //lorsque le fo
 
     //récuperer les valeurs du formulaire
     var website = document.getElementById("website").value;
+    var pseudo = document.getElementById("pseudo").value;
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
     
 
     //création du client
     var client = {
-        "id": null, "email": email,
+        "id": null, "pseudo": pseudo, "email": email,
         "password": password, "created_at": null
     };
 
@@ -45,6 +46,3 @@ function createClient(client)
     });
 
 }
-
-
-
