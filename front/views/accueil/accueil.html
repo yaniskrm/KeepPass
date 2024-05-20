@@ -13,9 +13,14 @@
         <div class="logo">KeepPass</div>
         <h2 class="tagline">Stockez vos mots de passe en toute sécurité</h2>
     </header>
-    
 
-    <div id="welcomeMessage" class="welcome-message"></div>
+    <div id="welcomeContainer" class="welcome-container">
+        <div id="welcomeMessage" class="welcome-message"></div>
+        <div id="loginLinkContainer" class="login-link-container" style="display: none; text-align: center;">
+            <a href="../login/login.html" class="btn">Connectez-vous ou inscrivez-vous</a>
+        </div>
+    </div>
+
     <div class="settings-container">
         <span class="material-icons-outlined settings-icon" id="settingsIcon">settings</span>
         <div id="settings-menu" class="settings-menu">
@@ -24,93 +29,76 @@
         </div>
     </div>
 
-    <div id="loginLinkContainer" class="login-link-container" style="display: none; text-align: center;">
-        <a href="../login/login.html" class="btn">Connectez-vous ou inscrivez-vous</a>
-    </div>
-    
-
-    <div class="main-nav">
-        <a href="../generateur/generateur.html" class="btn">Générateur de Mots de Passe</a>
-        <a href="../comparateur/comparateur.html" class="btn">Comparateur de Mots de Passe</a>
-        <a href="" class="btn">Mes Mots de Passe</a>
+    <div class="main-sections">
+        <div id="passwordGenerator" class="section">
+            <a href="../generateur/generateur.html" class="btn section-link">Générateur de Mots de Passe</a>
+        </div>
+        <div id="passwordComparer" class="section">
+            <a href="../comparateur/comparateur.html" class="btn section-link">Comparateur de Mots de Passe</a>
+        </div>
+        <div id="myPasswords" class="section">
+            <a href="../liste/list.html" class="btn section-link">Mes Mots de Passe</a>
+        </div>
     </div>
 
     <footer class="footer">
         <p>&copy; 2024 KeepPass. Tous droits réservés.</p>
     </footer>
+
     <script>
-        
-        fetch('http://localhost:3001/api/user', {
-            credentials: 'include'
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Non authentifié');
-        })
-        .then(user => {
-            // Modification ici pour n'inclure que le pseudo de l'utilisateur dans le message
-            document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, sélectionnez une option :`;
-        })
-        .catch(error => {
-            document.getElementById('welcomeMessage').innerHTML = 'Bonjour, veuillez vous connecter ';
-        });
         document.addEventListener('DOMContentLoaded', function() {
-        const settingsIcon = document.getElementById('settingsIcon');
-        const settingsMenu = document.getElementById('settings-menu');
+            // Vérifiez l'état de la session utilisateur
+            fetch('http://localhost:3001/api/user', {
+                credentials: 'include'
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Non authentifié');
+            })
+            .then(user => {
+                // Utilisateur connecté
+                document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, sélectionnez une option :`;
+                document.querySelector('.main-sections').style.display = 'flex'; // Affiche les sections
+                document.getElementById('welcomeContainer').style.display = 'block'; // Affiche le conteneur de bienvenue
+            })
+            .catch(error => {
+                // Utilisateur non connecté
+                document.getElementById('welcomeMessage').innerHTML = 'Bonjour, veuillez vous connecter.';
+                document.getElementById('loginLinkContainer').style.display = 'block'; // Affiche le lien de connexion/inscription
+                document.querySelector('.main-sections').style.display = 'none'; // Cache les sections
+                document.getElementById('welcomeContainer').style.display = 'block'; // Affiche le conteneur de bienvenue
+            });
 
-        // Gérer l'ouverture/fermeture du menu des paramètres
-        settingsIcon.addEventListener('click', function(event) {
-            // Toggle la visibilité du menu
-            settingsMenu.style.display = (settingsMenu.style.display === 'block') ? 'none' : 'block';
-            event.stopPropagation(); // Empêche le clic de se propager plus loin
-        });
-
-        // Fermer le menu si on clique en dehors
-        document.addEventListener('click', function(event) {
-            if (!settingsMenu.contains(event.target) && !settingsIcon.contains(event.target)) {
-                settingsMenu.style.display = 'none';
-            }
-        });
-        });
-
-        fetch('http://localhost:3001/api/user', {
-            credentials: 'include'
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Non authentifié');
-        })
-        .then(user => {
-            // Utilisateur connecté
-            document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, sélectionnez une option :`;
-            document.querySelector('.main-nav').style.display = 'block'; // Affiche la navigation
-        })
-        .catch(error => {
-            // Utilisateur non connecté
-            document.getElementById('welcomeMessage').innerHTML = 'Bonjour, veuillez vous connecter.';
-            document.getElementById('loginLinkContainer').style.display = 'block'; // Affiche le lien de connexion/inscription
-        });
-
-        // Gestion du menu des paramètres...
-        document.addEventListener('DOMContentLoaded', function() {
+            // Gérer l'ouverture/fermeture du menu des paramètres
             const settingsIcon = document.getElementById('settingsIcon');
             const settingsMenu = document.getElementById('settings-menu');
+
             settingsIcon.addEventListener('click', function(event) {
                 settingsMenu.style.display = (settingsMenu.style.display === 'block') ? 'none' : 'block';
                 event.stopPropagation();
             });
 
+            // Fermer le menu si on clique en dehors
             document.addEventListener('click', function(event) {
                 if (!settingsMenu.contains(event.target) && !settingsIcon.contains(event.target)) {
                     settingsMenu.style.display = 'none';
                 }
             });
-        });
 
+            // Rend chaque section cliquable
+            const clickableSections = document.querySelectorAll('.section');
+            
+            clickableSections.forEach(section => {
+                section.addEventListener('click', function() {
+                    const link = section.querySelector('.section-link');
+                    if (link) {
+                        window.location.href = link.href; // Redirige vers l'URL du lien
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
