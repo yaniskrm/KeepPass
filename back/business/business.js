@@ -37,7 +37,17 @@ const business = {
         } catch (error) {
             throw new Error('Erreur lors de la connexion à la base de données');
         }
-    }
+    },
+
+
+    // listPasswords : async function (userId) {
+    //     try {
+    //         const passwords = await dal.getPasswordsByUserId(userId);
+    //         return passwords;
+    //     } catch (error) {
+    //         throw new Error('Erreur lors de la récupération des mots de passe');
+    //     }
+    // }
 
 };
 

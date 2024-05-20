@@ -50,7 +50,20 @@ let datalayer = {
                 }
             });
         });
-    }
+    },
+
+    // getPasswordsByUserId : function(userId) {
+    //     return new Promise((resolve, reject) => {
+    //         const query = 'SELECT * FROM passwords WHERE userId = ?';
+    //         connection.query(query, [userId], (error, results) => {
+    //             if (error) {
+    //                 reject(error);
+    //             } else {
+    //                 resolve(results);
+    //             }
+    //         });
+    //     });
+    // }
 };
 
 module.exports = datalayer;
