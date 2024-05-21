@@ -142,6 +142,76 @@ body:not(.settings-container) .settings-menu {
     }
 }
 
-.main-nav {
-    display: none; /* Cache la navigation par défaut */
+
+.main-sections {
+    display: none; /* Cache les sections par défaut */
+    width: 100%; /* Assurez-vous que le conteneur s'étend sur toute la largeur de la page */
+    height: 69vh; /* Hauteur ajustée pour chaque section */
+    overflow: hidden; /* Masque tout contenu qui déborde */
+}
+
+.section {
+    flex: 1; /* Chaque section prend un tiers de l'espace disponible */
+    display: flex;
+    align-items: center; /* Centre verticalement le contenu */
+    justify-content: center; /* Centre horizontalement le contenu */
+    background-color: #333; /* Fond initialement noir */
+    color: #fff; /* Texte blanc */
+    transition: background-color 0.5s ease; /* Transition douce pour les changements de fond */
+}
+
+.section-link {
+    display: flex; /* Flexbox pour centrer le contenu du lien */
+    align-items: center; /* Centre verticalement le contenu du lien */
+    justify-content: center; /* Centre horizontalement le contenu du lien */
+    font-size: 24px; /* Taille de la police pour les liens */
+    color: #fff; /* Texte blanc */
+    text-decoration: none; /* Pas de soulignement */
+    width: 100%; /* Étend le lien sur toute la largeur de la section */
+    height: 100%; /* Étend le lien sur toute la hauteur de la section */
+    transition: background-color 0.5s, color 0.5s; /* Transition douce pour les changements de fond et de couleur */
+}
+
+.section:hover {
+    background-color: #444; /* Change le fond en gris légèrement plus clair au survol */
+}
+
+.section-link:hover {
+    color: #bebebe; /* Texte noir au survol pour contraster avec le fond gris */
+}
+
+
+
+@media (max-width: 768px) {
+    .main-sections {
+        flex-direction: column; /* Change la direction en colonne sur les petits écrans */
+    }
+
+    .section {
+        margin-bottom: 20px; /* Ajoute un espacement entre les sections en vue colonne */
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ajoute de l'espace entre le logo et le texte */
+    padding: 20px;
+    background-color: #202020;
+    color: #f4f4f4;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 50px; /* Ajustez la hauteur selon vos besoins */
+    margin-right: 20px; /* Espace entre le logo et le texte */
+}
+
+.tagline {
+    flex: 1;
+    text-align: center; /* Centre le texte au milieu de l'en-tête */
 }

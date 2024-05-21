@@ -92,7 +92,7 @@ const apiServ = {
         
         
           
-        app.get('/api/userCookies', (req, res) => {
+        app.get('/api/user', (req, res) => {
             if (req.session && req.session.userId) {
                 res.json({ pseudo: req.session.pseudo, userId: req.session.userId });
             } else {

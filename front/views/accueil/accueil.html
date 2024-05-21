@@ -244,22 +244,6 @@
     <script src="../assets/js/main.js"></script>
     <script>
 
-        fetch('http://localhost:3001/api/userCookies', {
-            credentials: 'include'
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Non authentifié');
-            })
-            .then(user => {
-                // Modification ici pour n'inclure que le pseudo de l'utilisateur dans le message
-                document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, sélectionnez une option :`;
-            })
-            .catch(error => {
-                document.getElementById('welcomeMessage').innerHTML = 'Bonjour, veuillez vous connecter ';
-            });
         document.addEventListener('DOMContentLoaded', function () {
             const settingsIcon = document.getElementById('settingsIcon');
             const settingsMenu = document.getElementById('settings-menu');
@@ -313,8 +297,19 @@
                     settingsMenu.style.display = 'none';
                 }
             });
-        });
 
+            // Rend chaque section cliquable
+            const clickableSections = document.querySelectorAll('.section');
+            
+            clickableSections.forEach(section => {
+                section.addEventListener('click', function() {
+                    const link = section.querySelector('.section-link');
+                    if (link) {
+                        window.location.href = link.href; // Redirige vers l'URL du lien
+                    }
+                });
+            });
+        });
     </script>
 </body>
 

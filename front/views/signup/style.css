@@ -117,3 +117,28 @@ button[type="submit"]:hover {
         width: 90%;
     }
 }
+
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ajoute de l'espace entre le logo et le texte */
+    padding: 20px;
+    background-color: #202020;
+    color: #f4f4f4;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 50px; /* Ajustez la hauteur selon vos besoins */
+    margin-right: 20px; /* Espace entre le logo et le texte */
+}
+
+.tagline {
+    flex: 1;
+    text-align: center; /* Centre le texte au milieu de l'en-tête */
+}
