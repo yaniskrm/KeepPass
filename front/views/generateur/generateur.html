@@ -1,28 +1,144 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Generateur</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>KeepPass : Générateur de mots de passe</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+
 </head>
 
 <body>
-    <div class="header">
-        <h1>Générer votre mot de passe</h1>
-    </div>
 
-    <div class="input-container"> <!-- Nouveau conteneur flex -->
-        <input type="password" id="password" class="password-input">
-        <span onclick="changePasswordVisibility()" class="material-icons-outlined password-icon">visibility_off</span>
-    </div>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1 class="logo"><a href="../index.html">Keep Pass</a></h1>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto" href="../accueil/accueil.html">Accueil</a></li>
+                    <li><a class="nav-link scrollto" href="#hero">Générer un mot de passe
+                            fort</a></li>
+                    <li><a class="nav-link scrollto" href="../comparateur/comparateur.html">Tester la force d'un mot de
+                            passe</a></li>
+                    <li><a class="nav-link scrollto" href="../liste/list.html">Consulter les mots de passe
+                            enregistrés</a></li>
+                    <li><a class="getstarted scrollto" href="../login/login.html">Connexion</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+        </div>
+    </header><!-- End Header -->
 
-    <div class="button-container">
-        <button onclick="generatePassword(event)" class="btn">Generer</button>
-        <button onclick="copyToClipboard()" class="btn">Copier</button>
-    </div>
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center">
+
+        <div class="container-fluid" data-aos="fade-up">
+            <div class="row justify-content-center">
+                <div
+                    class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                    <!-- ======= About Section ======= -->
+                    <section id="about" class="about">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="header text-center mb-5">
+                                        <h2>Générer votre mot de passe</h2>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <input type="password" id="password" class="form-control" placeholder="Votre mot de passe">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="changePasswordVisibility()">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6">
+                                    <div class="d-grid gap-2">
+                                        <button onclick="generatePassword(event)" class="btn btn-primary btn-lg" style="background-color: white; color: rgb(90, 27, 150); border : gray;">Générer</button>
+                                        <button onclick="copyToClipboard()" class="btn btn-secondary btn-lg">Copier</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </section><!-- End About Section -->
+                    
+                </div>
+
+            </div>
+        </div>
+
+    </section><!-- End Hero -->
+
+    <main id="main">
+
+
+
+
+
+
+    </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+
+
+
+        <div class="container">
+
+            <div class="copyright-wrap d-md-flex py-4">
+                <div class="me-md-auto text-center text-md-start">
+                    <div class="copyright">
+                        &copy; Copyright <strong><span>Keep Pass</span></strong>. All Rights Reserved
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="../assets/vendor/aos/aos.js"></script>
+    <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="../assets/js/main.js"></script>
 
     <script src="script.js"></script>
+
 </body>
+
 </html>

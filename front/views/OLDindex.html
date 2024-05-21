@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div id="welcomeMessage"></div>
+
+    
+    <a href="liste/list.html">Voir les clients</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://localhost:3001/api/userCookies', {
+                credentials: 'include'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Non authentifié');
+                })
+                .then(user => {
+                    document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, votre ID est ${user.userId}.`;
+                })
+                .catch(error => {
+                    document.getElementById('welcomeMessage').innerHTML = 'Veuillez vous connecter.';
+                });
+        });
+    </script>
+</body>
+</html>
