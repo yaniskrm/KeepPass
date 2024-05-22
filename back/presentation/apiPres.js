@@ -45,6 +45,7 @@ const apiServ = {
                 // Récupérer les données de la requête pseudoKP et passwordKP
                 const { pseudoKP, passwordKP } = req.body;
 
+
                 const result = await business.createUser(pseudoKP, passwordKP);
                 res.json({ success: true, message: 'Utilisateur créé avec succès', data: result });
             } catch (error) {
