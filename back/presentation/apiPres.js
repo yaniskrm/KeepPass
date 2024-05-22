@@ -18,6 +18,8 @@ const apiServ = {
             password: process.env.DB_PASSWORD
         };
 
+        console.log(dbConfig);
+
         const corsOptions = {
             origin: 'http://localhost:3000', // Spécifiez l'origine autorisée
             credentials: true // Permet l'envoi des credentials comme les cookies
