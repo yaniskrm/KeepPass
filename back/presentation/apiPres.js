@@ -53,7 +53,7 @@ const apiServ = {
             }
         });        
         
-        app.post('/login', async (req, res) => {
+        app.post('/api/login', async (req, res) => {
             const { pseudo, password } = req.body;
             console.log(req.body)
             try {
