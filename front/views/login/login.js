@@ -1,31 +1,61 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//     document.querySelector('form').addEventListener('submit', function (e) {
-//         e.preventDefault(); // Empêche la soumission classique du formulaire
+var url = new URL("http://localhost:3001/api/login");
 
-//         // Récupération des valeurs saisies par l'utilisateur
-//         const pseudo = document.getElementById('InputPseudo').value;
-//         const password = document.getElementById('InputPassword').value;
+$(document).on("submit", "#loginForm", function (event) { //lorsque le formulaire est soumis
 
-//         // Envoi des données au serveur
-//         fetch('/api/login', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: formData
-//         })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('La réponse du réseau n\'était pas ok');
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             console.log('Success:', data);
-//         })
-//         .catch((error) => {
-//             console.error('Error:', error);
-//             alert('Échec de la connexion : vérifiez votre pseudo ou votre mot de passe');
-//         });
-//     });
-// });
+    event.preventDefault();
+
+    //récuperer les valeurs du formulaire
+    var pseudoKP = document.getElementById("pseudoKP").value;
+    var passwordKP = document.getElementById("passwordKP").value;
+
+    console.log(pseudoKP);
+    console.log(passwordKP);
+
+    //création du client
+    var UserKP = {
+        "pseudoKP": pseudoKP, "passwordKP": passwordKP
+    };
+
+    console.log(UserKP);
+
+
+createUser(UserKP);
+    
+    
+
+    
+});
+
+function createUser(UserKP)
+{
+
+    //on envoie le UserKP au serveur
+    $.ajax({
+        url: url,
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(UserKP),
+        //en cas de succes
+        success: function () {
+        
+            $("#alert-message").attr('class', 'alert alert-success');
+            $("#alert-message").html("Vous êtes connecté. Bienvenue sur KeepPass !");
+            //on attend 1 seconde
+            setTimeout(function(){
+                //on redirige vers la page d'accueil
+                window.location.href = "http://localhost:3000/accueil/accueil.html";
+            }, 1000);    
+        },
+
+    //si erreur
+        error: function (xhr) {
+            $("#alert-message").attr('class', 'alert alert-danger');
+            $("#alert-message").html(xhr.responseJSON.message);// Affichage du message d'erreur
+
+        }
+    });
+
+}
+
+
+

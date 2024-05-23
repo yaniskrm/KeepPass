@@ -1,12 +1,15 @@
 require('dotenv').config();
+
 var express = require("express");
 const business = require("../business/business");
 var cors = require("cors");
 var app = express();
-const mysql = require('mysql2/promise');
+
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
+
+//Utilisation des cookies de session
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const apiServ = {
     start: function (port) {
@@ -14,14 +17,26 @@ const apiServ = {
         const corsOptions = {
             origin: 'http://localhost:3000', // Spécifiez l'origine autorisée
             credentials: true // Permet l'envoi des credentials comme les cookies
-          };
-        
+        };
+
+        app.use(bodyParser.json());
+        app.use(cookieParser());
+
         app.use(session({
-            secret: 'secret',
+            secret: 'your_secret_key', // Changez cette clé secrète pour quelque chose de plus sécurisé
             resave: false,
-            saveUninitialized: false,
-            cookie: { secure: false } 
+            saveUninitialized: true,
+            cookie: { secure: false } // Assurez-vous que secure est à true si vous utilisez HTTPS
         }));
+
+        // Middleware pour ajouter les cookies à la réponse
+        app.use((req, res, next) => {
+            if (req.session && req.session.pseudoKP) {
+                res.cookie('pseudoKP', req.session.pseudoKP, { httpOnly: true, secure: false });
+            }
+            next();
+        });
+
 
         app.use(express.json());
 
@@ -42,84 +57,46 @@ const apiServ = {
             } catch (error) {
                 res.status(500).json({ success: false, message: 'Erreur lors de la création de l\'utilisateur', error: error.message });
             }
-        });        
-        
+        });
+
         app.post('/api/login', async (req, res) => {
             try {
                 const pseudoKP = req.body.pseudoKP;
                 const passwordKP = req.body.passwordKP;
-        
+
                 console.log("pseudo : ", pseudoKP, "password : ", passwordKP);
-        
+
                 const result = await business.login(pseudoKP, passwordKP);
-        
+
                 req.session.userId = result.idUserKP; // Stocker l'ID dans la session
-                req.session.pseudo = result.pseudoKP;
-        
+                req.session.pseudoKP = result.pseudoKP; // Stocker le pseudo dans la session
+
                 res.json({ success: true, message: 'Connexion Réussie. Bienvenue sur KeepPass !', data: result });
             } catch (error) {
                 res.status(500).json({ success: false, message: 'Erreur lors de la connexion', error: error.message });
             }
         });
-            
-            // try {
-            //     const { pseudo, password } = req.body;
-            //     console.log(req.body)
-            //     // connexion avec la base de données
-            //     const connection = await mysql.createConnection(dbConfig);
-            //     // console.log('Pseudo:', pseudo, 'Password:', password);
 
-            //     // Chercher l'utilisateur par pseudo
-            //     const [users] = await connection.execute('SELECT * FROM UserKP WHERE pseudoKP = ?', [pseudo]);
-                
-            //     // Vérifier si un utilisateur a été trouvé
-            //     if (users.length > 0) {
-            //         const user = users[0];
 
-            //         // Comparer le mot de passe fourni avec le mot de passe haché dans la base de données
-            //         const match = await bcrypt.compare(password, user.passwordKP);
-            //         if (match) {
-            //             // Si les mots de passe correspondent
-            //             //renvoie vers la page index.html
-            //             req.session.userId = user.idUserKP; // Stocker l'ID dans la session
-            //             req.session.pseudo = user.pseudoKP;
-            //             res.redirect('http://localhost:3000/accueil/accueil.html');
-            //         } else {
-            //             // Si les mots de passe ne correspondent pas  
-            //             res.send('Échec de la connexion : mot de passe incorrect');
-            //         }
-            //     } else {
-            //         // Si aucun utilisateur n'a été trouvé avec ce pseudo
-            //         res.send('Échec de la connexion : utilisateur non trouvé');
-            //     }
-        
-            //     // Fermer la connexion avec la base de données
-            //     await connection.end();
-            // } catch (error) {
-            //     console.error('Erreur de connexion à la base de données', error);
-            //     res.status(500).send('Erreur lors de la connexion au serveur');
-            // }
-        
-        
-        
-          
+
+
         app.get('/api/user', (req, res) => {
             if (req.session && req.session.userId) {
                 res.json({ pseudo: req.session.pseudo, userId: req.session.userId });
             } else {
                 res.status(401).json({ message: "Non authentifié" });
             }
-            });
-        
+        });
+
         app.get('/logout', (req, res) => {
             req.session.destroy((err) => {
                 if (err) {
                     return res.status(500).send('Failed to log out');
                 }
-        
+
                 // Optionnel: Supprimer explicitement le cookie      session du côté client
                 res.clearCookie('connect.sid'); // Assurez-vous que le nom du cookie est correct selon votre configuration
-        
+
                 // Rediriger vers la page de connexion ou renvoyer un succès
                 //res.redirect('/login'); // Modifiez selon le chemin de votre page de connexion
                 res.redirect('http://localhost:3000/accueil/accueil.html');
