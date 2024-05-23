@@ -1,23 +1,28 @@
 const fs = require("fs");
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 const bcrypt = require('bcrypt');
 
-
-const connection = mysql.createConnection({
+//paramètres de la base de données (dépendent des variables d'environnement dans le fichier .env)
+const dbConfig = {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     database: process.env.DB_DATABASE,
     password: process.env.DB_PASSWORD
-});
+};
 
-connection.connect(function (err) {
-    if (err) {
-        console.error('Erreur de connexion à la base de données :', err);
-        return;
+// Fonction de connection à la base de données
+async function connectToDatabase() {
+    try {
+        const connection = await mysql.createConnection(dbConfig);
+        console.log('Connexion à la base de données réussie');
+        return connection;
+    } catch (error) {
+        console.error('Erreur de connexion à la base de données', error);
+        throw error;
     }
-    console.log('Connecté à la base de données MySQL');
-});
+}
 
+connectToDatabase();
 
 let datalayer = {
 
@@ -39,17 +44,32 @@ let datalayer = {
         });
     },
 
-    login : function(pseudo) {
-        return new Promise((resolve, reject) => {
-            const query = 'SELECT * FROM UserKP WHERE pseudoKP = ?';
-            connection.query(query, [pseudo], (error, results) => {
-                if (error) {
-                    reject(error);
+    login : async function(pseudoKP, passwordKP) {
+        try {
+            const connection = await mysql.createConnection(dbConfig);
+            const queryPassword = 'SELECT idUserKP, pseudoKP, passwordKP FROM UserKP WHERE pseudoKP = ?';
+    
+            // Utilisation de `query` pour obtenir les résultats et les champs
+            const [results] = await connection.query(queryPassword, [pseudoKP]);
+    
+            await connection.end();
+    
+            if (results.length > 0) {
+                const user = results[0];
+                const match = await bcrypt.compare(passwordKP, user.passwordKP);
+    
+                if (match) {
+                    return user;
                 } else {
-                    resolve(results[0]);
+                    throw new Error('Mot de passe incorrect');
                 }
-            });
-        });
+            } else {
+                throw new Error('Utilisateur non trouvé');
+            }
+        } catch (error) {
+            console.error('Erreur de connexion à la base de données', error);
+            throw new Error('Erreur lors de la connexion à la base de données');
+        }
     },
 
     // getPasswordsByUserId : function(userId) {
