@@ -27,12 +27,15 @@
     <link href="../assets/css/style.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
 
+    <!-- Header will be loaded here -->
+    <script src="../header/loadHeader.js"></script>
+
 </head>
 
 <body>
-
+    
     <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top">
+    <!-- <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center justify-content-between">
             <h1 class="logo"><a href="../index.html">Keep Pass</a></h1>
             <nav id="navbar" class="navbar">
@@ -48,8 +51,8 @@
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
-        </div>
-    </header><!-- End Header -->
+        <!-- </div>
+    </header>End Header -->
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
@@ -183,13 +186,20 @@
                     <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column align-items-lg-center">
                         <div class="icon-box mt-5 mt-lg-0" data-aos="fade-up" data-aos-delay="100">
                             <i class="bx bx-receipt"></i>
-                            <h4>Comparateur de mot de passe</h4>
-                            <p>Implémenté par nos soins à partir des standards actuels en terme de sécurité</p>
+                            <h4>MySQL</h4>
+                            <p>MySQL est un système de gestion de base de données relationnelle utilisé pour stocker et organiser des données. 
+                                MySQL est open source, ce qui signifie qu'il est gratuit et peut être audité ou modifié par quiconque. 
+                                Sa simplicité d'utilisation et sa robustesse en ont faits un choix évident pour cette application.</p>
                         </div>
                         <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="200">
                             <i class="bx bx-cube-alt"></i>
                             <h4>Bcrypt</h4>
-                            <p>Bibliothèque node contenant une fonction de hachage permettant de stocker le mot de passe principal de votre compte sans que nous ne le connaissions</p>
+                            <p>Bcrypt est un outil de sécurité utilisé pour protéger les mots de passe. 
+                                Quand vous créez un compte sur un site web, bcrypt prend votre mot de passe et le transforme en une série de caractères aléatoires, appelés "hachage".
+                                Ce hachage est ce qui est stocké dans la base de données, et non votre mot de passe en clair. Ainsi, même si quelqu'un accède à la base de données, il ne pourra pas lire votre mot de passe. 
+                                Bcrypt est spécialement conçu pour être lent, ce qui rend plus difficile pour les pirates d'essayer de deviner votre mot de passe en utilisant des attaques automatisées. 
+                                En résumé, bcrypt aide à garder vos mots de passe en sécurité !
+                            </p>
                         </div>
                         <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="300">
                             <i class="bx bx-images"></i>
@@ -199,7 +209,12 @@
                         <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="400">
                             <i class="bx bx-shield"></i>
                             <h4>AES-256</h4>
-                            <p>Algorithme de chiffrement symétrique le plus évolué actuellement, vos mots de passes ne sont connus que par vous</p>
+                            <p>AES-256 est une méthode de cryptage très sécurisée utilisée pour protéger les données, y compris les mots de passe stockés dans un gestionnaire de mots de passe. 
+                                Quand vous enregistrez un mot de passe dans un gestionnaire, AES-256 chiffre (ou encode) le mot de passe en utilisant une clé de 256 bits, transformant ainsi vos informations en un code indéchiffrable sans la clé correcte. 
+                                Cela signifie que même si quelqu'un accède à vos données chiffrées, il ne pourra pas les lire sans avoir la clé de décryptage. 
+                                AES-256 est largement reconnu pour sa robustesse et est utilisé par des gouvernements et des organisations à travers le monde pour protéger des informations sensibles. 
+                                En résumé, AES-256 assure que vos mots de passe restent sécurisés et privés.
+                            </p>
                         </div>
                     </div>
                     <div class="image col-lg-6 order-1 order-lg-2 " data-aos="zoom-in" data-aos-delay="100">
