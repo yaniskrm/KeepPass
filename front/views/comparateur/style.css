@@ -124,3 +124,7 @@ footer {
     flex: 1;
     text-align: center; /* Centre le texte au milieu de l'en-tête */
 }
+
+.hidden {
+    display: none;
+}

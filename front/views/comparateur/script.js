@@ -3,6 +3,25 @@
 function resetResult() {
     document.getElementById('resultat').textContent = '';
     document.getElementById('password-strength').textContent = '';
+    toggleVisibility();
+    
+}
+
+function toggleVisibility() {
+    var resultatElement = document.getElementById('resultat');
+    var strengthElement = document.getElementById('password-strength');
+
+    if (!resultatElement.textContent) {
+        resultatElement.style.display = 'none';
+    } else {
+        resultatElement.style.display = 'block';
+    }
+
+    if (!strengthElement.textContent) {
+        strengthElement.style.display = 'none';
+    } else {
+        strengthElement.style.display = 'block';
+    }
 }
 
 function changePasswordVisibility() {
@@ -27,6 +46,7 @@ async function verifierMotDePasse() {
 
     if (!motDePasse) {
         resultatElement.textContent = 'Veuillez saisir un mot de passe.';
+        toggleVisibility();
         return;
     }
 
@@ -48,7 +68,14 @@ async function verifierMotDePasse() {
         console.error('Erreur lors de la vérification avec HIBP:', error);
         resultatElement.textContent = 'Erreur lors de la vérification. Veuillez réessayer plus tard.';
     }
+    toggleVisibility();
 }
+
+function hideEmptyElements() {
+    document.getElementById('resultat').style.display = 'none';
+    document.getElementById('password-strength').style.display = 'none';
+}
+
 
 // Fonction pour évaluer la force d'un mot de passe
 function evalueForceMotDePasse(motDePasse) {

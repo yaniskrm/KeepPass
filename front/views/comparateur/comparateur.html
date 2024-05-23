@@ -12,7 +12,7 @@
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i"
         rel="stylesheet">
 
     <!-- Vendor CSS -->
@@ -29,7 +29,7 @@
 
 </head>
 
-<body>
+<body onload="hideEmptyElements()">
 
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
@@ -56,8 +56,7 @@
 
         <div class="container-fluid" data-aos="fade-up">
             <div class="row justify-content-center">
-                <div
-                    class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <div class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
                     <!-- ======= About Section ======= -->
                     <section id="about" class="about">
                         <div class="container">
@@ -68,7 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="row justify-content-center">
                                 <div class="col-lg-6">
                                     <div class="input-group mb-3">
@@ -79,18 +78,25 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="row justify-content-center">
                                 <div class="col-lg-6">
                                     <div class="d-grid gap-2">
                                         <button onclick="verifierMotDePasse()" class="btn btn-primary">Vérifier</button>
                                     </div>
-                                    
                                 </div>
                             </div>
+
+                            <!-- Add these divs for result display -->
+                            <div class="row justify-content-center mt-3">
+                                <div class="col-lg-6">
+                                    <div id="resultat" class="alert alert-info" role="alert" style="display: none;"></div>
+                                    <div id="password-strength" class="alert alert-warning" role="alert" style="display: none;"></div>
+                                </div>
+                            </div>
+
                         </div>
                     </section><!-- End About Section -->
-                    
                 </div>
 
             </div>
@@ -100,17 +106,10 @@
 
     <main id="main">
 
-
-
-
-
-
     </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-
-
 
         <div class="container">
 
@@ -124,8 +123,7 @@
         </div>
     </footer><!-- End Footer -->
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <div id="preloader"></div>
 
     <!-- Vendor JS Files -->
