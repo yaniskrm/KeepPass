@@ -8,27 +8,15 @@ $(document).on("submit", "#loginForm", function (event) { //lorsque le formulair
     var pseudoKP = document.getElementById("pseudoKP").value;
     var passwordKP = document.getElementById("passwordKP").value;
 
-    console.log(pseudoKP);
-    console.log(passwordKP);
-
     //création du client
     var UserKP = {
         "pseudoKP": pseudoKP, "passwordKP": passwordKP
     };
 
-    console.log(UserKP);
-
-
-createUser(UserKP);
-    
-    
-
-    
+createUser(UserKP);  
 });
 
-function createUser(UserKP)
-{
-
+function createUser(UserKP){
     //on envoie le UserKP au serveur
     $.ajax({
         url: url,
@@ -37,13 +25,12 @@ function createUser(UserKP)
         data: JSON.stringify(UserKP),
         //en cas de succes
         success: function () {
-        
             $("#alert-message").attr('class', 'alert alert-success');
             $("#alert-message").html("Vous êtes connecté. Bienvenue sur KeepPass !");
             //on attend 1 seconde
             setTimeout(function(){
                 //on redirige vers la page d'accueil
-                window.location.href = "http://localhost:3000/accueil/accueil.html";
+                //window.location.href = "http://localhost:3000/accueil/accueil.html";
             }, 1000);    
         },
 

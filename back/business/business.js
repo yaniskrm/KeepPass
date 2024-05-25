@@ -51,6 +51,24 @@ const business = {
         return result;
     },
 
+    getPasswords: async function (userId) {
+        if (!userId) {
+            throw new Error('ID utilisateur non fourni');
+        }
+        const passwords = await dal.getPasswords(userId);
+        return passwords;
+    },
+
+    deletePassword: async function (userId, passwordId) {
+        dal.deletePassword(userId, passwordId);
+    },
+
+    updatePassword: async function (userId, passwordId, website, pseudo, password) {
+        dal.updatePassword(userId, passwordId, website, pseudo, password);
+    }
+
+
+
 
     // listPasswords : async function (userId) {
     //     try {

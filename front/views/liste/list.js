@@ -1,36 +1,107 @@
-var url = new URL("http://localhost:3001/api/listPassword");
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('http://localhost:3001/api/passwords', {
+        method: 'GET',
+        credentials: 'include' // Include credentials to send cookies
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        populateTable(data);
+    })
+    .catch(error => {
+        console.error('Erreur lors de la récupération des mots de passe:', error);
+    });
+});
 
-var selectNumber = document.getElementById("select-number");
+function populateTable(passwords) {
+    const tableBody = document.getElementById('passwordTableBody');
+    tableBody.innerHTML = ''; // Clear existing table rows
+    console.log(passwords);
+    passwords.forEach(password => {
+        const row = document.createElement('tr');
 
-function getValueNumber() {
-    // Récupération de la valeur du nombre de mots de passe par page dans le menu déroulant
-    number = selectNumber.value;
-    generateTabPassword(); // Régénération du tableau
-}
+        const websiteCell = document.createElement('td');
+        websiteCell.textContent = password.website;
+        row.appendChild(websiteCell);
 
-function generateTabPassword() {
-    var clients = "";
+        const pseudoCell = document.createElement('td');
+        pseudoCell.textContent = password.pseudo;
+        row.appendChild(pseudoCell);
 
-    $.get("http://localhost:3001/api/listPassword", function (data) {
+        const passwordCell = document.createElement('td');
+        passwordCell.textContent = password.password;
+        row.appendChild(passwordCell);
 
-        data.result.forEach(user => {
-            // Boutons modifier et supprimer client depuis le tableau
-            var deleteClient = "<button class='btn btn-danger' onclick='removeClient(" + user.id + ")'>Supprimer</button>";
-            var editClient = "<a href='../modification/modificationClient.html?id=" + user.id + "'><button class='btn btn-warning'>Modifier</button></a>";
+        const actionsCell = document.createElement('td');
+        actionsCell.innerHTML = `
+                <button class="btn btn-primary btn-sm" onclick="editPassword(${password.idAccount})">
+                    <i class="fa fa-pencil"></i> 
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deletePassword(${password.idAccount})">
+                    <i class="fa fa-trash"></i> 
+                </button>
+            `;
 
-            // Génération de la ligne du tableau pour chaque utilisateur
-            var client = `<tr>
-            <td>`+ user.website + `</td>
-            <td>` + user.pseudo + `</td>
-            <td>` + user.email + `</td>
-            <td>` + user.password + `</td>
-            <td>` + editClient + ' ' + deleteClient + `</td>
-            </tr > `;
+        row.appendChild(actionsCell);
 
-            clients = clients + client; // Concaténation des clients
-        });
-        $("#customersList").html(clients);
+        tableBody.appendChild(row);
     });
 }
 
-generateTabPassword();
+function deletePassword(id) {
+    fetch(`http://localhost:3001/api/passwords/${id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la suppression du mot de passe');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Mot de passe supprimé avec succès');
+        location.reload(); // Reload the page to update the table
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la suppression du mot de passe');
+    });
+}
+
+function editPassword(id) {
+    const website = prompt('Entrez le nouveau site web:');
+    const pseudo = prompt('Entrez le nouveau pseudo:');
+    const password = prompt('Entrez le nouveau mot de passe:');
+
+    if (website && pseudo && password) {
+        fetch(`http://localhost:3001/api/passwords/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ website, pseudo, password })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la modification du mot de passe');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Mot de passe modifié avec succès');
+            location.reload(); // Reload the page to update the table
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de la modification du mot de passe');
+        });
+    } else {
+        alert('Tous les champs doivent être remplis');
+    }
+}

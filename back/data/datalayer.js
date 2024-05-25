@@ -25,7 +25,7 @@ async function connectToDatabase() {
 connectToDatabase();
 
 let datalayer = {
-
+    
     createUser: function(pseudoKP, passwordKP) {
         //hachage du mot de passe passwordKP avec bcrypt
         const salt = bcrypt.genSaltSync(10);
@@ -71,6 +71,44 @@ let datalayer = {
             throw new Error('Erreur lors de la connexion à la base de données');
         }
     },
+
+    getPasswords: async function (userId) {
+        try {
+            const connection = await mysql.createConnection(dbConfig);
+            console.log('userId : ', userId);
+            userId = 1;
+            const [results] = await connection.query('SELECT website, pseudo, password FROM UserStorage WHERE idUsersKP = ?', [userId]);
+            await connection.end(); // Fermez la connexion après l'utilisation
+            return results;
+        } catch (error) {
+            throw new Error('Erreur lors de la récupération des mots de passe');
+        }
+    },
+
+    // Suppression d'un mot de passe
+    deletePassword: async function (userId, passwordId) {
+        try {
+            const connection = await mysql.createConnection(dbConfig);
+            const [results] = await connection.query('DELETE FROM UserStorage WHERE idUsersKP = ? AND idAccount = ?', [userId, passwordId]);
+            await connection.end(); // Fermez la connexion après l'utilisation
+            return results;
+        } catch (error) {
+            throw new Error('Erreur lors de la suppression du mot de passe');
+        }
+    },
+
+    // Modification d'un mot de passe
+    updatePassword: async function (userId, passwordId, website, pseudo, password) {
+        try {
+            const connection = await mysql.createConnection(dbConfig);
+            const [results] = await connection.query('UPDATE UserStorage SET website = ?, pseudo = ?, password = ? WHERE idUsersKP = ? AND idAccount = ?', [website, pseudo, password, userId, passwordId]);
+            await connection.end(); // Fermez la connexion après l'utilisation
+            return results;
+        } catch (error) {
+            throw new Error('Erreur lors de la modification du mot de passe');
+        }
+    },
+
 
     // getPasswordsByUserId : function(userId) {
     //     return new Promise((resolve, reject) => {
