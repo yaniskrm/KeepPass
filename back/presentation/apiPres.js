@@ -74,19 +74,11 @@ const apiServ = {
         });
         
 
-        // Route to set a cookie
-        app.post('/api/setCookie', (req, res) => {
-            const { pseudoKP } = req.body;
-            res.cookie('loginCookieSession', pseudoKP, { maxAge: 900000, httpOnly: true });
-            res.json({ success: true, message: 'Cookie correctement défini !' });
-        });
-
-
         // Route pour obtenir les mots de passe de l'utilisateur connecté
         app.get('/api/passwords', checkAuthenticated, async (req, res) => {
             try {
                 console.log('Session avant récupération des mots de passe:', req.session); // Log de la session avant récupération
-                //const userId = req.session.userId; // Assurez-vous que l'ID utilisateur est stocké dans la session
+                const userId = req.session.userId; //Réccupération de l'ID de l'utilisateur connecté
                 userId = 1;
                 const rows = await business.getPasswords(userId);
                 res.json(rows);

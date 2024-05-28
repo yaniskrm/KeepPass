@@ -21,7 +21,7 @@ function setCookie(cname, cvalue, exdays) {
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-  }
+}
 
 
 function createUser(UserKP){
@@ -42,7 +42,7 @@ function createUser(UserKP){
             //on attend 1 seconde
             setTimeout(function(){
                 //on redirige vers la page d'accueil
-                //window.location.href = "http://localhost:3000/accueil/accueil.html";
+                window.location.href = "http://localhost:3000/accueil/accueil.html";
             }, 1000);    
         },
 

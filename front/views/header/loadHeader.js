@@ -10,7 +10,7 @@ function getCookie(name) {
 function handleSessionCookie() {
     const pseudoKP = getCookie("pseudoKP");
     if (pseudoKP) {
-        document.getElementById("pseudoSession").textContent = "Bienvenue " + pseudoKP;
+        document.getElementById("pseudoSession").textContent = pseudoKP;
         document.getElementById("pseudoSession").style.display = "block"; // Show the pseudo
         document.getElementById("connexionButton").style.display = "none";
         document.getElementById("deconnexionButton").style.display = "block"; // Show the logout button
