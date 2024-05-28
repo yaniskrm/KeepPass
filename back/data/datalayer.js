@@ -72,16 +72,16 @@ let datalayer = {
         }
     },
 
-    getPasswords: async function (userId) {
+    getPasswords: async function (pseudoKP) {
         try {
             const connection = await mysql.createConnection(dbConfig);
-            console.log('userId : ', userId);
-            userId = 1;
-            const [results] = await connection.query('SELECT website, pseudo, password FROM UserStorage WHERE idUsersKP = ?', [userId]);
+            const [results] = await connection.query('SELECT website, pseudo, password FROM userstorage WHERE idUsersKP in (SELECT idUserKP from userkp WHERE pseudoKP = ?)', [pseudoKP]);
             await connection.end(); // Fermez la connexion après l'utilisation
+            console.log('results:', results);
             return results;
+
         } catch (error) {
-            throw new Error('Erreur lors de la récupération des mots de passe');
+            throw new Error('Erreur lors de la récupération des mots de passe dans la base de données');
         }
     },
 

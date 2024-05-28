@@ -1,3 +1,4 @@
+const e = require("express");
 const dal = require("../data/datalayer");
 
 const bcrypt = require('bcrypt');
@@ -51,11 +52,11 @@ const business = {
         return result;
     },
 
-    getPasswords: async function (userId) {
-        if (!userId) {
-            throw new Error('ID utilisateur non fourni');
+    getPasswords: async function (pseudoKP) {
+        if (!pseudoKP) {
+            throw new Error("Vous n'etes pas connecté ! Veuillez vous connecter pour accéder à vos mots de passe");
         }
-        const passwords = await dal.getPasswords(userId);
+        const passwords = await dal.getPasswords(pseudoKP);
         return passwords;
     },
 

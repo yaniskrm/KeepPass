@@ -9,13 +9,6 @@ const session = require('express-session');
 const mysql = require("mysql2/promise");
 
 
-// Middleware pour vérifier la session de l'utilisateur
-function checkAuthenticated(req, res, next) {
-    if (req.session.userId) {
-        return next();
-    }
-    res.status(401).json({ message: 'Utilisateur non authentifié' });
-}
 const apiServ = {
     start: function (port) {
 
@@ -75,12 +68,12 @@ const apiServ = {
         
 
         // Route pour obtenir les mots de passe de l'utilisateur connecté
-        app.get('/api/passwords', checkAuthenticated, async (req, res) => {
+        app.post('/api/passwords', async (req, res) => {
             try {
-                console.log('Session avant récupération des mots de passe:', req.session); // Log de la session avant récupération
-                const userId = req.session.userId; //Réccupération de l'ID de l'utilisateur connecté
-                userId = 1;
-                const rows = await business.getPasswords(userId);
+                const pseudoKP = req.body.pseudoKP; //Réccupération de l'ID de l'utilisateur connecté
+                console.log('pseudoKP:', pseudoKP);
+
+                const rows = await business.getPasswords(pseudoKP);
                 res.json(rows);
             } catch (error) {
                 console.error(error);
@@ -88,8 +81,9 @@ const apiServ = {
             }
         });
 
+
         // Route pour supprimer un mot de passe
-        app.delete('/api/passwords/:id', checkAuthenticated, async (req, res) => {
+        app.delete('/api/passwords/:id', async (req, res) => {
             try {
                 const passwordId = req.params.id;
                 const userId = req.session.userId;
@@ -103,7 +97,7 @@ const apiServ = {
         });
 
         // Route pour modifier un mot de passe
-        app.put('/api/passwords/:id', checkAuthenticated, async (req, res) => {
+        app.put('/api/passwords/:id', async (req, res) => {
             try {
                 const passwordId = req.params.id;
                 const userId = req.session.userId;
