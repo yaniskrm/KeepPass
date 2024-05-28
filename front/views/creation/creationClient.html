@@ -1,18 +1,37 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Creation Client</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>KeepPass : Gestionnaire de secrets</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
 
-    <script type="module" src="creationClient.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+
+    <!-- Header will be loaded here -->
+    <script src="../header/loadHeader.js"></script>
 
 </head>
 
 <body>
+    <div id="header-container"></div> <!-- Conteneur pour le header -->
+
     <form method="post" id="addCustomersForm" onsubmit="return false">
         <div class="form-row">
             <div class="form-group col-md-7">

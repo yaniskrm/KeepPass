@@ -1,34 +1,45 @@
-// loadHeader.js
-
+// Function to get a cookie value by name
 function getCookie(name) {
-    let value = `; ${document.cookie}`;
-    let parts = value.split(`; ${name}=`);
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
 }
 
-$(document).ready(function () {
-    fetch('front\views\header\header.html')
-        .then(response => response.text())
-        .then(data => {
-            document.body.insertAdjacentHTML('afterbegin', data);
-            // Call function to handle session cookie
-            handleSessionCookie();
-        })
-        .catch(error => console.error('Error loading header:', error));
-});
-
+// Function to handle session cookies and update the header
 function handleSessionCookie() {
-    var pseudoKP = getCookie("pseudoKP");
+    const pseudoKP = getCookie("pseudoKP");
     if (pseudoKP) {
-        $("#pseudoSession").text("Bienvenue " + pseudoKP);
-        $("#pseudoSession").show(); // Affiche le pseudo
-        $("#connexionButton").hide();
-        $("#deconnexionButton").show(); // Afficher le bouton de déconnexion
+        document.getElementById("pseudoSession").textContent = "Bienvenue " + pseudoKP;
+        document.getElementById("pseudoSession").style.display = "block"; // Show the pseudo
+        document.getElementById("connexionButton").style.display = "none";
+        document.getElementById("deconnexionButton").style.display = "block"; // Show the logout button
     }
 
-    $("#deconnexionButton").on("click", function() {
+    document.getElementById("deconnexionButton").addEventListener("click", function() {
         document.cookie = "pseudoKP=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         location.reload();
     });
 }
+
+// Function to load header HTML
+function loadHeader() {
+    fetch("../header/header.html")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById("header-container").innerHTML = data;
+            handleSessionCookie();
+        })
+        .catch(error => {
+            console.error('Error loading header:', error);
+        });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadHeader();
+});
