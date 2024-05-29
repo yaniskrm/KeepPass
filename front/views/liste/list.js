@@ -72,6 +72,9 @@ function fillTableUserInfos(website, pseudo, password) {
     editButton.addEventListener("click", function() {
         // Ajouter ici la logique pour modifier le mot de passe
         console.log("Modifier le mot de passe pour :", website);
+
+        // Amène vers le formulaire de modification
+        window.location.href = `http://localhost:3000/liste/edit/editInfosForm.html`;
     });
 
     // Créer le bouton "Supprimer"
