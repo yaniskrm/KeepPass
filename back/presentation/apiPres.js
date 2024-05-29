@@ -85,6 +85,10 @@ const apiServ = {
         app.post('/api/addPassword', async (req, res) => {
             try {
                 const { website, pseudo, password, pseudoKP} = req.body;
+                console.log("website", website);    
+                console.log("pseudo", pseudo);    
+                console.log("password", password);    
+                console.log("pseudoKP", pseudoKP);    
 
                 const result = await business.addPassword(pseudoKP, website, pseudo, password);
                 res.json({ success: true, message: 'Mot de passe ajouté avec succès', data: result });
@@ -109,20 +113,22 @@ const apiServ = {
             }
         });
 
-        // Route pour modifier un mot de passe
-        app.put('/api/passwords/:id', async (req, res) => {
+        app.put('/api/passwords', async (req, res) => {
             try {
-                const passwordId = req.params.id;
-                const userId = req.session.userId;
-                const { website, pseudo, password } = req.body;
-
-                const result = await business.updatePassword(userId, passwordId, website, pseudo, password);
+                const { website, pseudo, password, pseudoKP, originalWebsite } = req.body; // Include originalWebsite to identify the correct record to update
+        
+                if (!pseudoKP || !originalWebsite) {
+                    return res.status(400).json({ message: 'Pseudo utilisateur et site original sont requis' });
+                }
+        
+                const result = await business.editPassword(pseudoKP, originalWebsite, website, pseudo, password);
                 res.json({ success: true, message: 'Mot de passe modifié avec succès', data: result });
             } catch (error) {
                 console.error(error);
                 res.status(500).json({ message: 'Erreur du serveur', error: error.message });
             }
         });
+        
 
         app.listen(port, function () {
             console.log("Server running on port " + port);

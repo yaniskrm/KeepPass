@@ -1,6 +1,7 @@
 const fs = require("fs");
 const mysql = require("mysql2/promise");
 const bcrypt = require('bcrypt');
+const { editPassword } = require("../business/business");
 
 //paramètres de la base de données (dépendent des variables d'environnement dans le fichier .env)
 const dbConfig = {
@@ -141,10 +142,38 @@ let datalayer = {
     },
 
     // Modification d'un mot de passe
-    updatePassword: async function (userId, passwordId, website, pseudo, password) {
+    updatePassword: async function (pseudoKP, originalWebsite, website, pseudo, password) {
         try {
             const connection = await mysql.createConnection(dbConfig);
-            const [results] = await connection.query('UPDATE UserStorage SET website = ?, pseudo = ?, password = ? WHERE idUsersKP = ? AND idAccount = ?', [website, pseudo, password, userId, passwordId]);
+    
+            // Construire la requête SQL dynamiquement
+            let query = 'UPDATE userstorage SET';
+            let updates = [];
+            let params = [];
+            
+
+            //On fait les modifications en fonction des valeur ajoutées dans le formulaire
+            if (website) {
+                updates.push('website = ?');
+                params.push(website);
+            }
+            if (pseudo) {
+                updates.push('pseudo = ?');
+                params.push(pseudo);
+            }
+            if (password) {
+                updates.push('password = ?');
+                params.push(password);
+            }
+    
+            if (updates.length === 0) {
+                throw new Error('Aucune information à mettre à jour');
+            }
+            
+            query += ' ' + updates.join(', ') + ' WHERE idUsersKP = (SELECT idUserKP from userkp WHERE pseudoKP = ?) AND website = ?';
+            params.push(pseudoKP, originalWebsite);
+    
+            const [results] = await connection.query(query, params);
             await connection.end(); // Fermez la connexion après l'utilisation
             return results;
         } catch (error) {

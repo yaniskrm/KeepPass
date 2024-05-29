@@ -426,7 +426,7 @@ h6 {
 
 #hero .container,
 #hero .container-fluid {
-  padding-top: 5px;
+  padding-top: 50px;
 }
 
 #hero h1 {
@@ -578,9 +578,9 @@ section {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
-/* .about {
+.about {
   padding: 120px 0;
-} */
+}
 
 .about .content h3 {
   font-weight: 600;
