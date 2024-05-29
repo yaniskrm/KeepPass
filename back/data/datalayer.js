@@ -10,6 +10,8 @@ const dbConfig = {
     password: process.env.DB_PASSWORD
 };
 
+console.log('dbConfig:', dbConfig);
+
 // Fonction de connection à la base de données
 async function connectToDatabase() {
     try {
@@ -27,22 +29,37 @@ connectToDatabase();
 let datalayer = {
 
     createUser: async function (pseudoKP, passwordKP) {
-        try {
-            console.log('Création de l\'utilisateur', pseudoKP, passwordKP);
-            //hachage du mot de passe passwordKP avec bcrypt
-            const salt = bcrypt.genSaltSync(10);
-            const hash = bcrypt.hashSync(passwordKP, salt);
-            hashedPasswordKP = hash;
-            const connection = await mysql.createConnection(dbConfig);
-            const query = 'INSERT INTO UserKP (pseudoKP, passwordKP) VALUES (?, ?)';
-            const [results] = await connection.query(query, [pseudoKP, hashedPasswordKP]);
-            await connection.end();
-            return results;
-
-        } catch (error) {
-            console.error('Erreur lors de la création de l\'utilisateur', error);
-            throw new Error('Erreur lors de la création de l\'utilisateur');
-        }
+            try {
+                if (!pseudoKP || !passwordKP) {
+                    throw new Error("Les champs pseudoKP et passwordKP sont requis");
+                }
+        
+                const connection = await mysql.createConnection(dbConfig);
+        
+                // Vérification que le pseudo n'existe pas déjà
+                const queryVerifPseudoKP = 'SELECT pseudoKP FROM userkp WHERE pseudoKP = ?';
+                const [resultsVerifPseudoKP] = await connection.query(queryVerifPseudoKP, [pseudoKP]);
+                console.log('resultsVerifPseudoKP.length', resultsVerifPseudoKP.length);
+                if (resultsVerifPseudoKP.length > 0) {
+                    await connection.end();
+                    throw new Error('Ce nom d\'utilisateur existe déjà');
+                }
+        
+                // Hachage du mot de passe avec bcrypt
+                const salt = bcrypt.genSaltSync(10);
+                const hash = bcrypt.hashSync(passwordKP, salt);
+        
+                // Insertion du nouvel utilisateur
+                const query = 'INSERT INTO UserKP (pseudoKP, passwordKP) VALUES (?, ?)';
+                const [results] = await connection.query(query, [pseudoKP, hash]);
+        
+                await connection.end();
+        
+                return results;
+            } catch (error) {
+                console.error('Erreur lors de la création de l\'utilisateur:', error);
+                throw new Error('Erreur lors de la création de l\'utilisateur');
+            }
     },
 
     login: async function (pseudoKP, passwordKP) {
@@ -72,6 +89,31 @@ let datalayer = {
             throw new Error('Erreur lors de la connexion à la base de données');
         }
     },
+
+    addPassword: async function (pseudoKP, website, pseudo, password) {
+        try {
+            const connection = await mysql.createConnection(dbConfig);
+            const queryIdpseudoKP = 'SELECT idUserKP FROM userkp WHERE pseudoKP = ?';
+            const [resultsIdpseudoKP] = await connection.query(queryIdpseudoKP, [pseudoKP]);
+            await connection.end();
+
+            if(resultsIdpseudoKP) {
+                const connection = await mysql.createConnection(dbConfig);
+                const idUserKP = resultsIdpseudoKP[0].idUserKP;
+                console.log('idUserKP:', idUserKP);
+                const query = 'INSERT INTO userstorage (idUsersKP, website, pseudo, password) VALUES (?, ?, ?, ?)';
+                const [results] = await connection.query(query, [idUserKP, website, pseudo, password]);
+                console.log('results:', results);
+                await connection.end();
+                return results;
+            }else {
+                throw new Error('Utilisateur non trouvé');
+            }
+        } catch (error) {
+            throw new Error('Erreur lors de l\'ajout du mot de passe');
+        }
+    },
+
 
     getPasswords: async function (pseudoKP) {
         try {

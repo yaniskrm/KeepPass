@@ -31,13 +31,11 @@ const business = {
         }
         //Verification si le pseudo existe déjà
         const user = await dal.createUser(pseudoKP, passwordKP);
-        if (user) {
+        if (!user) {
             throw new Error('Ce nom d\'utilisateur existe déjà');
         }
 
-        // Interaction avec la couche d'accès aux données pour insérer l'utilisateur
-        const result = await dal.createUser(pseudoKP, passwordKP);
-        return result;
+        return user;
     },
 
     login: async function (pseudoKP, passwordKP) {
@@ -49,6 +47,14 @@ const business = {
         // Interaction avec la couche d'accès aux données pour récupérer l'utilisateur  
         const result = await dal.login(pseudoKP, passwordKP);
 
+        return result;
+    },
+
+    addPassword : async function (pseudoKP, website, pseudo, password) {
+        if (!pseudoKP || !website || !pseudo || !password) {
+            throw new Error('Veuillez fournir un pseudo, un site et un mot de passe');
+        }
+        const result = await dal.addPassword(pseudoKP, website, pseudo, password);
         return result;
     },
 

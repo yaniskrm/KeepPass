@@ -46,6 +46,7 @@ const apiServ = {
             try {
                 // Récupérer les données de la requête pseudoKP et passwordKP
                 const { pseudoKP, passwordKP } = req.body;
+
                 const result = await business.createUser(pseudoKP, passwordKP);
                 res.json({ success: true, message: 'Utilisateur créé avec succès', data: result });
             } catch (error) {
@@ -78,6 +79,18 @@ const apiServ = {
             } catch (error) {
                 console.error(error);
                 res.status(500).json({ message: 'Erreur du serveur' });
+            }
+        });
+
+        app.post('/api/addPassword', async (req, res) => {
+            try {
+                const { website, pseudo, password, pseudoKP} = req.body;
+
+                const result = await business.addPassword(pseudoKP, website, pseudo, password);
+                res.json({ success: true, message: 'Mot de passe ajouté avec succès', data: result });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Erreur du serveur', error: error.message });
             }
         });
 
