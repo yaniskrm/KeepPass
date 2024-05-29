@@ -1,86 +1,63 @@
-var url = new URL("http://localhost:3001/api/editcustomer");
+document.addEventListener("DOMContentLoaded", function () {
+    // Récupérer les informations depuis le localStorage
+    const website = localStorage.getItem('editWebsite');
+    const pseudo = localStorage.getItem('editPseudo');
+    const password = localStorage.getItem('editPassword');
 
-//fonction pour récupérer les infos en paramètre dans l'url
-function GetURLParameter(sParam)
-{
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) 
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam) 
-        {
-            return sParameterName[1];
+    // Pré-remplir le formulaire avec les informations récupérées
+    if (website) {
+        document.getElementById('website').value = website;
+    }
+    if (pseudo) {
+        document.getElementById('pseudo').value = pseudo;
+    }
+    if (password) {
+        document.getElementById('password').value = password;
+    }
+
+    // Gérer la soumission du formulaire
+    document.getElementById('editForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Empêcher la soumission du formulaire
+
+        const newPseudo = document.getElementById('pseudo').value;
+        const newPassword = document.getElementById('password').value;
+        console.log(newPassword);
+
+        // Vérifier que tous les champs sont remplis
+        if (!website || !newPseudo || !newPassword) {
+            alert('Tous les champs doivent être remplis');
+            return;
         }
-    }
-};
 
-
-//si id est bien défini dans l'url, on le récupère
-const id = GetURLParameter('id');
-    console.log("id", id);
-    if(id) {
-        document.getElementById("idClient").value = id;
-        document.getElementById("idClient").readOnly = true;
-        var idClient = id;
-    }
-    else {//sinon on récupère l'id du champ du formulaire
-        var idClient = document.getElementById("idClient").value;
-    }
-
-//EVOLUTION POSSIBLE: faire une fonction qui récupère les infos du client en fonction de l'id
-//et qui les affiche dans les champs du formulaire
-//=>permet d'avoir les champs préremplis et de savoir de quel client il s'agit
-
-
-$(document).on("submit", "#editCustomerForm", function (event) { //lorsque le formulaire est soumis
-    console.log("debut");
-
-    event.preventDefault();
-
-    //récuperer les valeurs du formulaire edit
-    var editFirst = document.getElementById("editFirst").value;
-    var editLast = document.getElementById("editLast").value;
-    var editEmail = document.getElementById("editEmail").value;
-    var editPassword = document.getElementById("editPassword").value;
-
-    //création du client
-    var client = {
-        "id": idClient, "email": editEmail, "first": editFirst, "last": editLast,
-        "password":editPassword, "created_at": null,
-    };
-
-    editClient(client);
-});
-
-function editClient(client) {
-
-    //on envoie le client au serveur
-    $.ajax({
-        url: url,
-        method: "PUT",
-        contentType: "application/json",
-        data: JSON.stringify(client),
-        //en cas de succes
-        success: function () {
-
-            $("#alert-message").attr('class', 'alert alert-success');
-            $("#alert-message").html("Client Modifié !");
-
-            console.log("done");
-        },
-
-        //si erreur
-        error: function (xhr) {
-            $("#alert-message").attr('class', 'alert alert-danger');
-            $("#alert-message").html(xhr.responseText);
-        }
+        // Envoyer la requête PUT au serveur pour mettre à jour les informations
+        fetch(`http://localhost:3001/api/passwords`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                // Récupérer le pseudo depuis le cookie
+                pseudoKP: getCookie('pseudoKP'),
+                website: website,
+                pseudo: newPseudo,
+                password: newPassword
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la modification du mot de passe');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Mot de passe modifié avec succès');
+            // Rediriger vers la liste après modification
+            window.location.href = '../list.html';
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de la modification du mot de passe');
+        });
     });
-
-}
-
-
-
-
-
-
+});

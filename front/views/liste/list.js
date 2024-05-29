@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchPasswords();
 });
 
-
 // Function to get a cookie value by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -10,8 +9,6 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
 }
-
-
 
 function fetchPasswords() {
     const pseudoKP = getCookie("pseudoKP"); // Récupération du pseudo de l'utilisateur connecté depuis le cookie
@@ -31,21 +28,19 @@ function fetchPasswords() {
     })
     .then(response => response.json())
     .then(data => {
-        if(data.length === 0) {
+        if (data.length === 0) {
             document.getElementById("listPasswords").innerHTML = "<div class='header text-center mb-5'><h1>Aucun mot de passe enregistré pour cet utilisateur !</h1></div>";
             return;
         }
-        else {
         // Traitement de la réponse
         data.forEach(passwordInfo => {
-            //Accès aux données pour chaque mot de passe
+            // Accès aux données pour chaque mot de passe
             const website = passwordInfo.website;
             const pseudo = passwordInfo.pseudo;
             const password = passwordInfo.password;
 
-        fillTableUserInfos(website, pseudo, password);
-    });
-    }
+            fillTableUserInfos(website, pseudo, password);
+        });
     })
     .catch(error => {
         console.error('Erreur lors de la récupération des mots de passe:', error);
@@ -76,10 +71,12 @@ function fillTableUserInfos(website, pseudo, password) {
     editButton.textContent = "Modifier";
     editButton.classList.add("btn", "btn-warning", "btn-sm", "me-1");
     editButton.addEventListener("click", function() {
-        // Ajouter ici la logique pour modifier le mot de passe
-        console.log("Modifier le mot de passe pour :", website);
+        // Stocker les informations dans le localStorage
+        localStorage.setItem('editWebsite', website);
+        localStorage.setItem('editPseudo', pseudo);
+        localStorage.setItem('editPassword', password);
 
-        // Amène vers le formulaire de modification
+        // Rediriger vers le formulaire de modification
         window.location.href = `http://localhost:3000/liste/edit/editInfosForm.html`;
     });
 
@@ -88,8 +85,7 @@ function fillTableUserInfos(website, pseudo, password) {
     deleteButton.textContent = "Supprimer";
     deleteButton.classList.add("btn", "btn-danger", "btn-sm");
     deleteButton.addEventListener("click", function() {
-        // Ajouter ici la logique pour supprimer le mot de passe
-        console.log("Supprimer le mot de passe pour :", website);
+        deletePassword(website);
     });
 
     // Ajouter les boutons à la cellule "Actions"
@@ -106,47 +102,14 @@ function fillTableUserInfos(website, pseudo, password) {
     tableBody.appendChild(newRow);
 }
 
-
-
-// function populateTable(passwords) {
-//     const tableBody = document.getElementById('passwordTableBody');
-//     tableBody.innerHTML = ''; // Clear existing table rows
-//     console.log(passwords);
-//     passwords.forEach(password => {
-//         const row = document.createElement('tr');
-
-//         const websiteCell = document.createElement('td');
-//         websiteCell.textContent = password.website;
-//         row.appendChild(websiteCell);
-
-//         const pseudoCell = document.createElement('td');
-//         pseudoCell.textContent = password.pseudo;
-//         row.appendChild(pseudoCell);
-
-//         const passwordCell = document.createElement('td');
-//         passwordCell.textContent = password.password;
-//         row.appendChild(passwordCell);
-
-//         const actionsCell = document.createElement('td');
-//         actionsCell.innerHTML = `
-//                 <button class="btn btn-primary btn-sm" onclick="editPassword(${password.idAccount})">
-//                     <i class="fa fa-pencil"></i> 
-//                 </button>
-//                 <button class="btn btn-danger btn-sm" onclick="deletePassword(${password.idAccount})">
-//                     <i class="fa fa-trash"></i> 
-//                 </button>
-//             `;
-
-//         row.appendChild(actionsCell);
-
-//         tableBody.appendChild(row);
-//     });
-// }
-
-function deletePassword(id) {
-    fetch(`http://localhost:3001/api/passwords/${id}`, {
+function deletePassword(website) {
+    fetch(`http://localhost:3001/api/passwords`, {
         method: 'DELETE',
-        credentials: 'include'
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ website: website })
     })
     .then(response => {
         if (!response.ok) {
@@ -156,43 +119,10 @@ function deletePassword(id) {
     })
     .then(data => {
         alert('Mot de passe supprimé avec succès');
-        location.reload(); // Reload the page to update the table
+        location.reload(); // Recharger la page pour mettre à jour le tableau
     })
     .catch(error => {
         console.error('Erreur:', error);
         alert('Erreur lors de la suppression du mot de passe');
     });
-}
-
-function editPassword(id) {
-    const website = prompt('Entrez le nouveau site web:');
-    const pseudo = prompt('Entrez le nouveau pseudo:');
-    const password = prompt('Entrez le nouveau mot de passe:');
-
-    if (website && pseudo && password) {
-        fetch(`http://localhost:3001/api/passwords/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({ website, pseudo, password })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur lors de la modification du mot de passe');
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert('Mot de passe modifié avec succès');
-            location.reload(); // Reload the page to update the table
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-            alert('Erreur lors de la modification du mot de passe');
-        });
-    } else {
-        alert('Tous les champs doivent être remplis');
-    }
 }

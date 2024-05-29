@@ -142,7 +142,7 @@ let datalayer = {
     },
 
     // Modification d'un mot de passe
-    updatePassword: async function (pseudoKP, originalWebsite, website, pseudo, password) {
+    updatePassword: async function (pseudoKP, website, pseudo, password) {
         try {
             const connection = await mysql.createConnection(dbConfig);
     
@@ -153,10 +153,6 @@ let datalayer = {
             
 
             //On fait les modifications en fonction des valeur ajoutées dans le formulaire
-            if (website) {
-                updates.push('website = ?');
-                params.push(website);
-            }
             if (pseudo) {
                 updates.push('pseudo = ?');
                 params.push(pseudo);
@@ -165,13 +161,12 @@ let datalayer = {
                 updates.push('password = ?');
                 params.push(password);
             }
-    
             if (updates.length === 0) {
                 throw new Error('Aucune information à mettre à jour');
             }
             
             query += ' ' + updates.join(', ') + ' WHERE idUsersKP = (SELECT idUserKP from userkp WHERE pseudoKP = ?) AND website = ?';
-            params.push(pseudoKP, originalWebsite);
+            params.push(pseudoKP, website);
     
             const [results] = await connection.query(query, params);
             await connection.end(); // Fermez la connexion après l'utilisation

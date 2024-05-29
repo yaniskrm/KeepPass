@@ -70,11 +70,11 @@ const business = {
         dal.deletePassword(userId, passwordId);
     },
 
-    editPassword: async function (pseudoKP, originalWebsite, website, pseudo, password) {
-        if (!pseudoKP || !originalWebsite) {
-            throw new Error('Pseudo utilisateur et site original sont requis');
+    editPassword: async function (pseudoKP, website, pseudo, password) {
+        if (!pseudoKP) {
+            throw new Error('Pseudo utilisateur sont requis !');
         }
-        const result = await dal.updatePassword(pseudoKP, originalWebsite, website, pseudo, password);
+        const result = await dal.updatePassword(pseudoKP, website, pseudo, password);
         return result;
     }
     

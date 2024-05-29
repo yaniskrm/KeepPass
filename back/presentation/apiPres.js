@@ -115,13 +115,16 @@ const apiServ = {
 
         app.put('/api/passwords', async (req, res) => {
             try {
-                const { website, pseudo, password, pseudoKP, originalWebsite } = req.body; // Include originalWebsite to identify the correct record to update
+                //Récupération des informations dans le body
+                const { pseudoKP, website, pseudo, password } = req.body;
+
+                console.log(pseudoKP, website, pseudo, password);
         
-                if (!pseudoKP || !originalWebsite) {
-                    return res.status(400).json({ message: 'Pseudo utilisateur et site original sont requis' });
+                if (!pseudoKP) {
+                    return res.status(400).json({ message: 'Pseudo utilisateur requis' });
                 }
         
-                const result = await business.editPassword(pseudoKP, originalWebsite, website, pseudo, password);
+                const result = await business.editPassword(pseudoKP, website, pseudo, password);
                 res.json({ success: true, message: 'Mot de passe modifié avec succès', data: result });
             } catch (error) {
                 console.error(error);
