@@ -22,10 +22,10 @@ $(document).ready(function () {
 
         // Création de l'objet mot de passe
         var passwordData = {
+            pseudoKP: pseudoKP,
             website: website,
             pseudo: pseudo,
-            password: password,
-            pseudoKP: pseudoKP
+            password: password
         };
 
         // Envoi des données au serveur
@@ -37,13 +37,11 @@ $(document).ready(function () {
             success: function () {
                 $("#alert-message").attr('class', 'alert alert-success');
                 $("#alert-message").html("Mot de passe ajouté avec succès !");
-                console.log("Mot de passe ajouté avec succès !");
-                
-
+                window.location.href = '../list.html';
             },
             error: function (xhr) {
                 $("#alert-message").attr('class', 'alert alert-danger');
-                $("#alert-message").html(xhr.responseText);
+                $("#alert-message").html("Erreur dans l'ajout d'un mot de passe");
                 console.error("Erreur lors de l'ajout du mot de passe:", xhr.responseText);
             }
         });

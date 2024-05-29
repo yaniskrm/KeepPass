@@ -29,7 +29,7 @@ function fetchPasswords() {
         .then(response => response.json())
         .then(data => {
             if (data.length === 0) {
-                document.getElementById("listPasswords").innerHTML = "<div class='header text-center mb-5'><h1>Aucun mot de passe enregistré pour cet utilisateur !</h1></div>";
+                document.getElementById("listPasswords").innerHTML = "<div class='header text-center mb-5'><h1>Aucun mot de passe enregistré pour cet utilisateur !</h1></div></br><div class='col-lg-12 text-center'><a href='./add/add.html' class='btn btn-success'>Ajouter un mot de passe</a></div>";
                 return;
             }
             // Traitement de la réponse
