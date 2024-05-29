@@ -12,10 +12,12 @@ function getCookie(name) {
 }
 
 
+
 function fetchPasswords() {
     const pseudoKP = getCookie("pseudoKP"); // Récupération du pseudo de l'utilisateur connecté depuis le cookie
     if (!pseudoKP) {
         console.error("Vous n'êtes pas connecté !");
+        document.getElementById("listPasswords").innerHTML = "<div class='header text-center mb-5'><h1>Connectez vous afin de consulter vos mots de passe !</h1></div>";
         return;
     }
 
@@ -35,10 +37,6 @@ function fetchPasswords() {
             const website = passwordInfo.website;
             const pseudo = passwordInfo.pseudo;
             const password = passwordInfo.password;
-            
-            console.log('website:', website);
-            console.log('pseudo:', pseudo);
-            console.log('password', password)
 
         fillTableUserInfos(website, pseudo, password);
     });
