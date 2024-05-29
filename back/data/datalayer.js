@@ -25,39 +25,40 @@ async function connectToDatabase() {
 connectToDatabase();
 
 let datalayer = {
-    
-    createUser: function(pseudoKP, passwordKP) {
-        //hachage du mot de passe passwordKP avec bcrypt
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(passwordKP, salt);
-        hashedPasswordKP = hash;
 
-        return new Promise((resolve, reject) => {
+    createUser: async function (pseudoKP, passwordKP) {
+        try {
+            console.log('Création de l\'utilisateur', pseudoKP, passwordKP);
+            //hachage du mot de passe passwordKP avec bcrypt
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(passwordKP, salt);
+            hashedPasswordKP = hash;
+            const connection = await mysql.createConnection(dbConfig);
             const query = 'INSERT INTO UserKP (pseudoKP, passwordKP) VALUES (?, ?)';
-            connection.query(query, [pseudoKP, hashedPasswordKP], (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results);
-                }
-            });
-        });
+            const [results] = await connection.query(query, [pseudoKP, hashedPasswordKP]);
+            await connection.end();
+            return results;
+
+        } catch (error) {
+            console.error('Erreur lors de la création de l\'utilisateur', error);
+            throw new Error('Erreur lors de la création de l\'utilisateur');
+        }
     },
 
-    login : async function(pseudoKP, passwordKP) {
+    login: async function (pseudoKP, passwordKP) {
         try {
             const connection = await mysql.createConnection(dbConfig);
             const queryPassword = 'SELECT idUserKP, pseudoKP, passwordKP FROM UserKP WHERE pseudoKP = ?';
-    
+
             // Utilisation de `query` pour obtenir les résultats et les champs
             const [results] = await connection.query(queryPassword, [pseudoKP]);
-    
+
             await connection.end();
-    
+
             if (results.length > 0) {
                 const user = results[0];
                 const match = await bcrypt.compare(passwordKP, user.passwordKP);
-    
+
                 if (match) {
                     return user;
                 } else {

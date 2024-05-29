@@ -30,7 +30,7 @@ const business = {
             throw new Error('Veuillez fournir un nom d\'utilisateur et un mot de passe valides');
         }
         //Verification si le pseudo existe déjà
-        const user = await dal.login(pseudoKP);
+        const user = await dal.createUser(pseudoKP, passwordKP);
         if (user) {
             throw new Error('Ce nom d\'utilisateur existe déjà');
         }

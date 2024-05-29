@@ -31,6 +31,11 @@ function fetchPasswords() {
     })
     .then(response => response.json())
     .then(data => {
+        if(data.length === 0) {
+            document.getElementById("listPasswords").innerHTML = "<div class='header text-center mb-5'><h1>Aucun mot de passe enregistré pour cet utilisateur !</h1></div>";
+            return;
+        }
+        else {
         // Traitement de la réponse
         data.forEach(passwordInfo => {
             //Accès aux données pour chaque mot de passe
@@ -40,6 +45,7 @@ function fetchPasswords() {
 
         fillTableUserInfos(website, pseudo, password);
     });
+    }
     })
     .catch(error => {
         console.error('Erreur lors de la récupération des mots de passe:', error);
