@@ -46,18 +46,18 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Erreur lors de la modification du mot de passe');
+                throw new Error('Erreur lors de la modification du pseudo / mot de passe');
             }
             return response.json();
         })
         .then(data => {
-            alert('Mot de passe modifié avec succès');
+            alert('Pseudo / Mot de passe modifié avec succès');
             // Rediriger vers la liste après modification
             window.location.href = '../list.html';
         })
         .catch(error => {
             console.error('Erreur:', error);
-            alert('Erreur lors de la modification du mot de passe');
+            alert('Erreur lors de la modification du pseudo / mot de passe');
         });
     });
 });
