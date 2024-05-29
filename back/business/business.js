@@ -66,8 +66,12 @@ const business = {
         return passwords;
     },
 
-    deletePassword: async function (userId, passwordId) {
-        dal.deletePassword(userId, passwordId);
+    deletePassword: async function (pseudoKP, website) {
+        if (!pseudoKP) {
+            throw new Error('Pseudo utilisateur sont requis !');
+        }
+        const result = dal.deletePassword(pseudoKP, website);
+        return result;
     },
 
     editPassword: async function (pseudoKP, website, pseudo, password) {

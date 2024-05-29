@@ -130,10 +130,12 @@ let datalayer = {
     },
 
     // Suppression d'un mot de passe
-    deletePassword: async function (userId, passwordId) {
+    deletePassword: async function (pseudoKP, website) {
         try {
             const connection = await mysql.createConnection(dbConfig);
-            const [results] = await connection.query('DELETE FROM UserStorage WHERE idUsersKP = ? AND idAccount = ?', [userId, passwordId]);
+            //Suppression de la ligne correspondante au pseudo et au site
+            const query = 'DELETE FROM userstorage WHERE idUsersKP in (SELECT idUserKP from userkp WHERE pseudoKP = ?) AND website = ?';
+            const [results] = await connection.query(query, [pseudoKP, website]);
             await connection.end(); // Fermez la connexion après l'utilisation
             return results;
         } catch (error) {

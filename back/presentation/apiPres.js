@@ -100,13 +100,18 @@ const apiServ = {
 
 
         // Route pour supprimer un mot de passe
-        app.delete('/api/passwords/:id', async (req, res) => {
+        app.delete('/api/passwords', async (req, res) => {
             try {
-                const passwordId = req.params.id;
-                const userId = req.session.userId;
+                //Récupération des informations dans le body
+                const { pseudoKP, website } = req.body;
+        
+                if (!pseudoKP) {
+                    return res.status(400).json({ message: 'Pseudo utilisateur requis' });
+                }
+        
+                const result = await business.deletePassword(pseudoKP, website);
+                res.json({ success: true, message: 'Mot de passe modifié avec succès', data: result });
 
-                const result = await business.deletePassword(userId, passwordId);
-                res.json({ success: true, message: 'Mot de passe supprimé avec succès', data: result });
             } catch (error) {
                 console.error(error);
                 res.status(500).json({ message: 'Erreur du serveur', error: error.message });

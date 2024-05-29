@@ -26,25 +26,25 @@ function fetchPasswords() {
         body: JSON.stringify({ pseudoKP: pseudoKP }), // Envoyer le pseudoKP dans le corps de la requête
         credentials: 'include'
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.length === 0) {
-            document.getElementById("listPasswords").innerHTML = "<div class='header text-center mb-5'><h1>Aucun mot de passe enregistré pour cet utilisateur !</h1></div>";
-            return;
-        }
-        // Traitement de la réponse
-        data.forEach(passwordInfo => {
-            // Accès aux données pour chaque mot de passe
-            const website = passwordInfo.website;
-            const pseudo = passwordInfo.pseudo;
-            const password = passwordInfo.password;
+        .then(response => response.json())
+        .then(data => {
+            if (data.length === 0) {
+                document.getElementById("listPasswords").innerHTML = "<div class='header text-center mb-5'><h1>Aucun mot de passe enregistré pour cet utilisateur !</h1></div>";
+                return;
+            }
+            // Traitement de la réponse
+            data.forEach(passwordInfo => {
+                // Accès aux données pour chaque mot de passe
+                const website = passwordInfo.website;
+                const pseudo = passwordInfo.pseudo;
+                const password = passwordInfo.password;
 
-            fillTableUserInfos(website, pseudo, password);
+                fillTableUserInfos(website, pseudo, password);
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des mots de passe:', error);
         });
-    })
-    .catch(error => {
-        console.error('Erreur lors de la récupération des mots de passe:', error);
-    });
 }
 
 function fillTableUserInfos(website, pseudo, password) {
@@ -70,7 +70,7 @@ function fillTableUserInfos(website, pseudo, password) {
     const editButton = document.createElement("button");
     editButton.textContent = "Modifier";
     editButton.classList.add("btn", "btn-warning", "btn-sm", "me-1");
-    editButton.addEventListener("click", function() {
+    editButton.addEventListener("click", function () {
         // Stocker les informations dans le localStorage
         localStorage.setItem('editWebsite', website);
         localStorage.setItem('editPseudo', pseudo);
@@ -84,8 +84,35 @@ function fillTableUserInfos(website, pseudo, password) {
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Supprimer";
     deleteButton.classList.add("btn", "btn-danger", "btn-sm");
-    deleteButton.addEventListener("click", function() {
-        deletePassword(website);
+
+    // Ajouter un événement de clic pour le bouton "Supprimer"
+    deleteButton.addEventListener("click", function () {
+        fetch(`http://localhost:3001/api/passwords`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                pseudoKP: getCookie('pseudoKP'),
+                website: website,
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression du mot de passe');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Mot de passe supprimé avec succès');
+                // Recharger la page après suppression
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la suppression du mot de passe');
+            });
     });
 
     // Ajouter les boutons à la cellule "Actions"
@@ -100,29 +127,4 @@ function fillTableUserInfos(website, pseudo, password) {
 
     // Ajouter la ligne au corps du tableau
     tableBody.appendChild(newRow);
-}
-
-function deletePassword(website) {
-    fetch(`http://localhost:3001/api/passwords`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({ website: website })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la suppression du mot de passe');
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert('Mot de passe supprimé avec succès');
-        location.reload(); // Recharger la page pour mettre à jour le tableau
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-        alert('Erreur lors de la suppression du mot de passe');
-    });
 }
