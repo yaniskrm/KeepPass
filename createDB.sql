@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS UserStorage (
     website VARCHAR(64) NOT NULL,
     pseudo VARCHAR(64) NOT NULL,
     password VARCHAR(64) NOT NULL,
-    idAccount BIGINT(64) NOT NULL,
-    PRIMARY KEY (idAccount),
+    idAccount BIGINT(64) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     FOREIGN KEY (idUsersKP) REFERENCES UserKP(idUserKP)
 );

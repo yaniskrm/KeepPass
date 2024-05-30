@@ -5,15 +5,12 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>KeepPass : Générateur de mots de passe</title>
+    <title>KeepPass : Gestionnaire de secrets</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-
     <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS -->
     <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
@@ -27,29 +24,13 @@
     <link href="../assets/css/style.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
 
+    <!-- Header will be loaded here -->
+    <script src="../header/loadHeader.js"></script>
+
 </head>
 
-<body onload="hideEmptyElements()">
-
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top">
-        <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="../accueil/accueil.html">Keep Pass</a></h1>
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a class="nav-link scrollto" href="../accueil/accueil.html">Accueil</a></li>
-                    <li><a class="nav-link scrollto" href="../generateur/generateur.html">Générer un mot de passe
-                            fort</a></li>
-                    <li><a class="nav-link scrollto" href="#hero">Tester la force d'un mot de
-                            passe</a></li>
-                    <li><a class="nav-link scrollto" href="../liste/list.html">Consulter les mots de passe
-                            enregistrés</a></li>
-                    <li><a class="getstarted scrollto" href="../login/login.html">Connexion</a></li>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
-        </div>
-    </header><!-- End Header -->
+<body>
+    <div id="header-container"></div> <!-- Conteneur pour le header -->
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">

@@ -1,3 +1,4 @@
+const e = require("express");
 const dal = require("../data/datalayer");
 
 const bcrypt = require('bcrypt');
@@ -29,14 +30,12 @@ const business = {
             throw new Error('Veuillez fournir un nom d\'utilisateur et un mot de passe valides');
         }
         //Verification si le pseudo existe déjà
-        const user = await dal.login(pseudoKP);
-        if (user) {
+        const user = await dal.createUser(pseudoKP, passwordKP);
+        if (!user) {
             throw new Error('Ce nom d\'utilisateur existe déjà');
         }
 
-        // Interaction avec la couche d'accès aux données pour insérer l'utilisateur
-        const result = await dal.createUser(pseudoKP, passwordKP);
-        return result;
+        return user;
     },
 
     login: async function (pseudoKP, passwordKP) {
@@ -51,21 +50,38 @@ const business = {
         return result;
     },
 
-    getPasswords: async function (userId) {
-        if (!userId) {
-            throw new Error('ID utilisateur non fourni');
+    addPassword : async function (pseudoKP, website, pseudo, password) {
+        if (!pseudoKP || !website || !pseudo || !password) {
+            throw new Error('Veuillez fournir un pseudo, un site et un mot de passe');
         }
-        const passwords = await dal.getPasswords(userId);
+        const result = await dal.addPassword(pseudoKP, website, pseudo, password);
+        return result;
+    },
+
+    getPasswords: async function (pseudoKP) {
+        if (!pseudoKP) {
+            throw new Error("Vous n'etes pas connecté ! Veuillez vous connecter pour accéder à vos mots de passe");
+        }
+        const passwords = await dal.getPasswords(pseudoKP);
         return passwords;
     },
 
-    deletePassword: async function (userId, passwordId) {
-        dal.deletePassword(userId, passwordId);
+    deletePassword: async function (pseudoKP, website) {
+        if (!pseudoKP) {
+            throw new Error('Pseudo utilisateur sont requis !');
+        }
+        const result = dal.deletePassword(pseudoKP, website);
+        return result;
     },
 
-    updatePassword: async function (userId, passwordId, website, pseudo, password) {
-        dal.updatePassword(userId, passwordId, website, pseudo, password);
+    editPassword: async function (pseudoKP, website, pseudo, password) {
+        if (!pseudoKP) {
+            throw new Error('Pseudo utilisateur sont requis !');
+        }
+        const result = await dal.updatePassword(pseudoKP, website, pseudo, password);
+        return result;
     }
+    
 
 
 

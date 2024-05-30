@@ -9,11 +9,8 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-
     <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS -->
     <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
@@ -26,33 +23,18 @@
     <!-- CSS -->
     <link href="../assets/css/style.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
-
+    
+    <!-- On ajoute le jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
     <!-- Header will be loaded here -->
     <script src="../header/loadHeader.js"></script>
 
 </head>
 
 <body>
-    
-    <!-- ======= Header ======= -->
-    <!-- <header id="header" class="fixed-top">
-        <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="../accueil/accueil.html">Keep Pass</a></h1>
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a class="nav-link scrollto" href="#hero">Accueil</a></li>
-                    <li><a class="nav-link scrollto" href="../generateur/generateur.html">Générer un mot de passe
-                            fort</a></li>
-                    <li><a class="nav-link scrollto" href="../comparateur/comparateur.html">Tester la force d'un mot de
-                            passe</a></li>
-                    <li><a class="nav-link scrollto" href="../liste/list.html">Consulter les mots de passe
-                            enregistrés</a></li>
-                    <li><a class="getstarted scrollto" href="../login/login.html">Connexion</a></li>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
-        <!-- </div>
-    </header>End Header -->
+    <div id="header-container"></div> <!-- Conteneur pour le header -->
+
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
@@ -259,61 +241,7 @@
     <script src="../assets/js/main.js"></script>
     <script>
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const settingsIcon = document.getElementById('settingsIcon');
-            const settingsMenu = document.getElementById('settings-menu');
-
-            // Gérer l'ouverture/fermeture du menu des paramètres
-            settingsIcon.addEventListener('click', function (event) {
-                // Toggle la visibilité du menu
-                settingsMenu.style.display = (settingsMenu.style.display === 'block') ? 'none' : 'block';
-                event.stopPropagation(); // Empêche le clic de se propager plus loin
-            });
-
-            // Fermer le menu si on clique en dehors
-            document.addEventListener('click', function (event) {
-                if (!settingsMenu.contains(event.target) && !settingsIcon.contains(event.target)) {
-                    settingsMenu.style.display = 'none';
-                }
-            });
-        });
-
-        fetch('http://localhost:3001/api/userCookies', {
-            credentials: 'include'
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Non authentifié');
-            })
-            .then(user => {
-                // Utilisateur connecté
-                document.getElementById('welcomeMessage').innerHTML = `Bonjour ${user.pseudo}, sélectionnez une option :`;
-                document.querySelector('.main-nav').style.display = 'block'; // Affiche la navigation
-            })
-            .catch(error => {
-                // Utilisateur non connecté
-                document.getElementById('welcomeMessage').innerHTML = 'Bonjour, veuillez vous connecter.';
-                document.getElementById('loginLinkContainer').style.display = 'block'; // Affiche le lien de connexion/inscription
-            });
-
-        // Gestion du menu des paramètres...
-        document.addEventListener('DOMContentLoaded', function () {
-            const settingsIcon = document.getElementById('settingsIcon');
-            const settingsMenu = document.getElementById('settings-menu');
-            settingsIcon.addEventListener('click', function (event) {
-                settingsMenu.style.display = (settingsMenu.style.display === 'block') ? 'none' : 'block';
-                event.stopPropagation();
-            });
-
-            document.addEventListener('click', function (event) {
-                if (!settingsMenu.contains(event.target) && !settingsIcon.contains(event.target)) {
-                    settingsMenu.style.display = 'none';
-                }
-            });
-
-            // Rend chaque section cliquable
+                    // Rend chaque section cliquable
             const clickableSections = document.querySelectorAll('.section');
             
             clickableSections.forEach(section => {
@@ -324,7 +252,6 @@
                     }
                 });
             });
-        });
     </script>
 </body>
 
